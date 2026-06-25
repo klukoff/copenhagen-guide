@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Copenhagen with Saya &amp; Enzo · Summer 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<style>
+  :root{
+    --bg:#faf7f2; --ink:#2d2a26; --muted:#6f685e; --line:#e7e0d6; --card:#ffffff;
+    --red:#c1442e;
+    --hit:#e67e22; --museum:#6c5ce7; --play:#27ae60; --trip:#16a085; --eat:#c0392b; --neigh:#2d6a7a; --me:#111111;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5}
+  a{color:var(--red)}
+  header{padding:26px 22px 14px;max-width:1180px;margin:0 auto}
+  h1{margin:0 0 4px;font-size:27px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 12px}
+  .bases{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+  .base-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+  .base-chip b{color:var(--red)}
+  .base-chip.tentative{border-color:#e0c873;background:#fbf6e6}
+  .base-chip.tentative b{color:#a96a10}
+
+  /* sticky nav */
+  nav{position:sticky;top:0;z-index:1100;background:rgba(250,247,242,.96);backdrop-filter:saturate(1.2) blur(6px);
+    border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1180px;margin:0 auto;padding:9px 18px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .nav-inner a{font-size:13px;font-weight:600;text-decoration:none;color:var(--ink);
+    padding:5px 10px;border-radius:999px;border:1px solid transparent}
+  .nav-inner a:hover{border-color:var(--line);background:#fff}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px 60px}
+  #map{height:460px;border-radius:14px;border:1px solid var(--line);margin:12px 0 12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+  .filter{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:7px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+  .filter[aria-pressed="false"]{opacity:.4}
+  .toggle{cursor:pointer;border:1px solid #e0c873;background:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .toggle.on{background:#fbeec3}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .legend-note{font-size:12.5px;color:var(--muted);margin:2px 0 10px}
+
+  section.block{margin:30px 0 6px}
+  .section-head{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+    margin:0 0 12px;font-weight:700;display:flex;align-items:center;gap:9px}
+  .section-head .swatch{width:12px;height:12px;border-radius:50%}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-left-width:5px;border-radius:12px;
+    padding:14px 15px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 4px rgba(0,0,0,.04);cursor:pointer}
+  .card h3{margin:0;font-size:16.5px;letter-spacing:-.01em}
+  .row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;text-transform:uppercase;letter-spacing:.03em}
+  .b-must{background:#fbe4df;color:#b3331e}
+  .b-high{background:#fdf0d8;color:#a96a10}
+  .b-option{background:#eee9e1;color:#7a7264}
+  .b-list{background:#f6e2a8;color:#7d6310}
+  .b-eat{background:#f3e3e0;color:#a23a28}
+  .chip{font-size:11.5px;color:var(--muted);background:#f4efe7;border-radius:6px;padding:2px 7px}
+  .blurb{font-size:13.5px;color:#43403a;margin:0}
+  .kid{font-size:12.5px;color:#43403a;background:#f7f3ec;border-radius:8px;padding:7px 9px;margin:0}
+  .kid b{color:var(--red)}
+  .meta{font-size:12.5px;color:var(--muted);margin:0}
+  .links{display:flex;gap:14px;margin-top:2px;font-size:13px;flex-wrap:wrap}
+  .links a{color:var(--red);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline}
+  .photo{display:block;height:122px;border-radius:8px;background-size:cover;background-position:center;position:relative;text-decoration:none;border:1px solid var(--line);overflow:hidden}
+  .photo .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cam{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .imgtag{position:absolute;left:8px;top:8px;background:rgba(255,255,255,.92);color:#2d2a26;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:.02em;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+  /* neighborhood cards */
+  .nb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+  .nb{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;position:relative;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .nb:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+  .nb-rank{position:absolute;top:-10px;right:16px;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px}
+  .nb-name{font-size:20px;font-weight:700;margin:0 0 2px}
+  .nb-tag{font-size:13px;color:#666;font-style:italic;margin:0 0 12px}
+  .nb-stats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+  .nb-stat{background:#f4efe7;padding:4px 9px;border-radius:6px;font-size:12px;font-weight:600;color:#555}
+  .nb-desc{font-size:13.5px;line-height:1.55;color:#444;margin:0 0 10px}
+  .nb-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#999;margin:10px 0 5px}
+  .nb-why{list-style:none;padding:0;margin:0}
+  .nb-why li{font-size:13px;line-height:1.5;padding:3px 0 3px 18px;position:relative;color:#555}
+  .nb-why li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--neigh)}
+  .pc{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:6px}
+  .pro,.con{font-size:12px;padding:6px 9px;border-radius:6px;line-height:1.4}
+  .pro{background:#e8f5e9;color:#2e7d32}
+  .con{background:#fce4ec;color:#c62828}
+  .nearby{margin-top:11px;display:flex;gap:6px;flex-wrap:wrap}
+  .nearby .nb-h{width:100%;margin-bottom:2px}
+  .near-chip{font-size:11.5px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 9px;cursor:pointer}
+  .near-chip:hover{border-color:var(--ink)}
+  .near-chip .d{color:var(--muted)}
+
+  .note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:16px 0;font-size:14px}
+  .note h2{margin:0 0 8px;font-size:16px;color:var(--red)}
+  .note ul{margin:6px 0 0;padding-left:18px}
+  .note li{margin:4px 0}
+  .plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+  footer{max-width:1180px;margin:0 auto;padding:0 22px 50px;color:var(--muted);font-size:12px}
+
+  .leaflet-tooltip.auto-lbl{display:none;background:#fff;border:1px solid #d9d2c6;color:#2d2a26;font-weight:600;font-size:11px;padding:2px 6px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.18);white-space:nowrap}
+  .leaflet-tooltip.auto-lbl::before{display:none}
+  #map.labels-on .leaflet-tooltip.auto-lbl{display:block}
+  .leaflet-tooltip.neigh-lbl{background:none;border:none;box-shadow:none;font-weight:700;font-size:13px;color:#2c2c2c}
+  .leaflet-tooltip.neigh-lbl::before{display:none}
+  .leaflet-popup-content{font-size:13px;line-height:1.4}
+  .leaflet-popup-content a{color:var(--red);font-weight:600}
+  .leaflet-popup-content b{font-size:14px}
+
+  @media (max-width:560px){
+    #map{height:64vh}
+    .nb-grid,.grid,.plan-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Copenhagen with Saya &amp; Enzo</h1>
+  <p class="sub">Family guide + map · July 19 – August 8, 2026 · ages 5 (princess phase) and 3 (animals + dinosaurs)</p>
+  <div class="bases">
+    <span class="base-chip tentative">★ <b>Base (tentative):</b> Carlsberg City, not yet booked</span>
+    <span class="base-chip">Crew: Kai, Satoko, Saya, Enzo + au pair</span>
+    <span class="base-chip">Most spots reachable by metro or e-cargo bike</span>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" onclick="goSection('neigh','stay');return false">Stay</a>
+    <a href="#" onclick="goSection('hit','do');return false">Do</a>
+    <a href="#" onclick="goSection('museum','museums');return false">Museums</a>
+    <a href="#" onclick="goSection('play','play');return false">Play</a>
+    <a href="#" onclick="goSection('trip','trips');return false">Day trips</a>
+    <a href="#" onclick="goSection('eat','eat');return false">Eat</a>
+    <a href="#" onclick="goSection('me','ours');return false">Our spots</a>
+    <a href="#plan">Plan ahead</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="controls" id="filters"></div>
+  <p class="legend-note">Tap a category to show or hide it on the map and below. Tap any card to fly the map there. Scroll-to-zoom is off, so use + / − or pinch. Restaurant pins are approximate; the “Open in Maps” link is the source of truth.</p>
+  <div id="map"></div>
+
+  <div id="sections"></div>
+
+  <h2 class="section-head" id="plan" style="margin-top:34px">Plan ahead &amp; logistics</h2>
+  <div class="plan-grid">
+    <div class="note">
+      <h2>Are restaurant reservations refundable?</h2>
+      <p style="margin:0 0 6px">Short answer: usually yes, with no money down. Most Copenhagen restaurants book through DinnerBooking or OpenTable, which take no card and charge nothing if you cancel in time (typically up to a few hours before). Just cancel through the confirmation email or app so you do not become a no-show.</p>
+      <ul>
+        <li><b>Casual and mid-range:</b> free to cancel, no card required. Courtesy cutoff is usually same-day, a few hours ahead.</li>
+        <li><b>Tasting-menu and high-end:</b> often prepaid and non-refundable. Noma requires cancellation at least 14 days ahead or the prepayment is lost.</li>
+        <li><b>Rule of thumb:</b> read the policy line at booking. If it asks for a card, treat it as non-refundable inside the stated window.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h2>Getting around &amp; finding more</h2>
+      <ul>
+        <li><b>Metro:</b> fast, driverless, runs all night. Easiest with two little ones plus a stroller.</li>
+        <li><b>E-cargo bike:</b> rent one for the stay to reach playgrounds, Reffen, and the Lakes with kids up front.</li>
+        <li><b>Playground finder:</b> <a href="https://legeplads.kk.dk/" target="_blank" rel="noopener">legeplads.kk.dk</a> maps every city playground.</li>
+        <li><b>Kids' events:</b> <a href="https://bornibyen.dk/koebenhavn" target="_blank" rel="noopener">bornibyen.dk/koebenhavn</a> (use Google Translate) lists what's on near your dates.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h2>Book ahead (beyond restaurants)</h2>
+      <ul>
+        <li><b>Zoo panda-window table:</b> books out, so reserve as soon as you set a date.</li>
+        <li><b>GoBoat:</b> grab a summer slot in advance.</li>
+        <li><b>Louisiana:</b> buy timed tickets and go early, before the midday crowds.</li>
+        <li><b>Canal tour:</b> book about 2 days ahead in July and August (busiest Fri–Sun).</li>
+        <li><b>Tivoli:</b> buy ride wristbands online; check the Friday “Fredagsrock” concert if you want one.</li>
+        <li><b>CopenHill &amp; Sauna Club Sydhavn:</b> book climbing, skiing, or a sauna session ahead.</li>
+      </ul>
+      <p style="margin:8px 0 0;color:#6f685e;font-size:13px">No booking needed: metro and regional trains, Nationalmuseet, DAC, Experimentarium, Designmuseum, playgrounds, Reffen, harbour bath, Bakken, and Dyrehaven. Frilandsmuseet is free but check open days. Confirm the Natural History Museum isn't mid-renovation.</p>
+    </div>
+    <div class="note">
+      <h2>Tourist passes</h2>
+      <p style="margin:0 0 6px"><b>Pick:</b> skip an all-trip pass. Buy two 72-hour Copenhagen Card DISCOVER cards (one per adult) for a single concentrated sightseeing block. Each adult brings two kids aged 3–11 free, and ages 0–2 are free, so two adult cards cover all four kids+parents.</p>
+      <ul>
+        <li><b>Covers:</b> all-zone transit (including the train to Louisiana in Humlebæk, Klampenborg for Dyrehaven, and the airport) plus Tivoli, the Zoo, Louisiana, Rosenborg, and 80+ sites.</li>
+        <li><b>Why not 3 weeks:</b> the clock runs continuously, and most days are free playgrounds, Reffen, swims, and the free Nationalmuseet.</li>
+        <li><b>Gotchas:</b> Tivoli rides cost extra (wristbands); GoBoat, CopenHill, and the Zoo panda restaurant aren't card attractions. Add the kids' cards at purchase; the clock starts at first scan.</li>
+        <li><b>Off-card days:</b> kids under 12 ride free with a paying adult, so use the DOT Tickets app or a Rejsekort.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Built for the Lukoff crew, June 2026. Private host details, addresses, and home-exchange logistics are kept in a separate crew-only file, not on this page. Verify hours and any summer renovation closures on each venue's site before you go. Sources: Sarah Kramer (local friend), Visit Copenhagen, VisitDenmark, and venue sites.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+/* ====================== CONFIG ====================== */
+// Update this single block once the home exchange is locked.
+const HOME_BASE = {
+  name:"Tentative base · Carlsberg City",
+  area:"Carlsberg Byen (Vesterbro / Frederiksberg border)",
+  lat:55.6655, lng:12.5360,
+  status:"Front-runner home exchange · not yet booked",
+  note:"Quiet new-build district in the old Carlsberg brewery grounds: playgrounds, car-light streets, ~10 min bike to Tivoli. Swap in the real address and neighborhood here once the exchange is confirmed."
+};
+
+const CAT = {
+  neigh: {label:"Neighborhoods",        color:"#2d6a7a", anchor:"stay",    head:"Where we're staying"},
+  hit:   {label:"Things to do",         color:"#e67e22", anchor:"do",      head:"Things to do"},
+  museum:{label:"Museums & indoor",     color:"#6c5ce7", anchor:"museums", head:"Museums & rainy-day"},
+  play:  {label:"Playgrounds & parks",  color:"#27ae60", anchor:"play",    head:"Playgrounds, parks & beaches"},
+  trip:  {label:"Day trips",            color:"#16a085", anchor:"trips",   head:"Day trips"},
+  eat:   {label:"Eat & drink",          color:"#c0392b", anchor:"eat",     head:"Eat & drink"},
+  me:    {label:"Our spots",            color:"#111111", anchor:"ours",    head:"Our spots & people"}
+};
+const ORDER = ["hit","museum","play","trip","eat","me"];
+const PRI = {must:["Must-do","b-must"], high:["High","b-high"], option:["Optional","b-option"]};
+
+function maps(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q+", Copenhagen");}
+function photos(name){return "https://www.google.com/search?tbm=isch&q="+encodeURIComponent(name+" Copenhagen");}
+function stripParen(s){return s.replace(/ \(.*?\)/,"");}
+function dist(aLat,aLng,bLat,bLng){
+  const R=6371, dLat=(bLat-aLat)*Math.PI/180, dLng=(bLng-aLng)*Math.PI/180,
+    la=aLat*Math.PI/180, lb=bLat*Math.PI/180;
+  const x=Math.sin(dLat/2)**2 + Math.cos(la)*Math.cos(lb)*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+
+const W = "https://commons.wikimedia.org/wiki/Special:FilePath/";
+
+/* ====================== NEIGHBORHOODS ====================== */
+const NEIGHBORHOODS = [
+  {key:"frederiksberg", name:"Frederiksberg", rank:"top", rankLabel:"Top Pick", color:"#c4883a",
+   center:[55.6794,12.5300], tag:"The leafy family paradise next to everything",
+   stats:["🌳 Very green","🚲 Bike-friendly","🍽 Great food","👶 Top for kids"],
+   desc:"The sweet spot for your family. Technically its own municipality, with a village feel, tree-lined streets, and an absurd density of playgrounds and parks. A 10-minute bike from Tivoli and the center, but your street stays quiet enough for the kids to play outside. Danish families with young kids cluster here for good reason.",
+   why:["Frederiksberg Gardens and Copenhagen Zoo are right here, perfect for repeat toddler visits","Søndermarken park has a huge adventure playground and open fields","Excellent bakeries and cafes (try Meyers Bageri), all stroller-welcoming","Superb bike infrastructure, flat terrain, cargo bikes everywhere","10–15 min bike to Tivoli, the National Museum, Nyhavn, and the center","Strong home-exchange availability: lots of family apartments"],
+   pros:["Safest area in Copenhagen","Quiet streets, tons of green"], cons:["Slightly less urban buzz","Pricier home exchanges"]},
+
+  {key:"osterbro", name:"Østerbro", rank:"top", rankLabel:"Top Pick", color:"#2e7d32",
+   center:[55.6970,12.5750], tag:"Copenhagen's family-friendly green heart",
+   stats:["🌳 Greenest area","🚲 Bike-friendly","👶 Very kid-friendly"],
+   desc:"Where Copenhagen's young professional families live. Anchored by Fælledparken, the city's largest park, home to the Children's Traffic Playground where Saya and Enzo can ride mini bikes through a tiny city with traffic lights. A polished, residential Scandinavian feel with excellent cafes.",
+   why:["Fælledparken: the city's biggest park plus the Children's Traffic Playground (a must)","Close to the Little Mermaid, Kastellet, and the harbor","Great cafe culture on Nordre Frihavnsgade","Easy bike ride to Nordhavn's waterfront and beaches","Very safe, quiet residential streets with wide bike lanes"],
+   pros:["Best park in the city","Very safe and calm"], cons:["Farther from Tivoli/center (15–20 min bike)","Can feel quiet in evenings"]},
+
+  {key:"vesterbro", name:"Vesterbro", rank:"strong", rankLabel:"Strong Option", color:"#1565c0",
+   center:[55.6680,12.5530], tag:"Trendy, walkable, and closest to the action",
+   stats:["🍽 Best food scene","🚶 Most walkable","🎭 Cultural hub"],
+   desc:"Copenhagen's trendiest neighborhood: craft coffee, food halls (Kødbyen / Meatpacking District), vintage shops, and vibrant street life. Closest to Tivoli and Central Station. The southern end around Sønder Boulevard is where young families settled, with a tree-lined boulevard that works as a neighborhood park.",
+   why:["Walking distance to Tivoli (5–10 min), great for repeat visits","Sønder Boulevard is a family-friendly green strip with playgrounds","Best food scene in the city: Meatpacking District, Torvehallerne-adjacent","Flat, excellent bike lanes throughout","Most central: museums, harbor, shopping all within reach"],
+   pros:["Most central location","Best restaurants and cafes"], cons:["Busier streets, less green overall","Avoid Istedgade's east end near the station"]},
+
+  {key:"islandsbrygge", name:"Islands Brygge", rank:"consider", rankLabel:"Worth Considering", color:"#0277bd",
+   center:[55.6610,12.5780], tag:"Waterfront living with harbor swimming",
+   stats:["🏊 Harbor baths","🌳 Car-free zones","👶 Kid-friendly"],
+   desc:"A modern waterfront neighborhood along the harbor, famous for harbor baths where locals swim in clean water all summer. Wide car-free promenades, good playgrounds, and a relaxed community feel. A great option for the waterside summer experience.",
+   why:["Harbor baths with a children's pool, free all summer","Car-free waterfront promenade, ideal for toddlers on balance bikes","Easy bike across the bridge to the center (10 min)","Good playgrounds along the harbor edge","Newer apartments tend to be spacious (good for exchange)"],
+   pros:["Summer waterfront lifestyle","Spacious, modern apartments"], cons:["Less character than older areas","Fewer local restaurants and cafes"]},
+
+  {key:"christianshavn", name:"Christianshavn", rank:"consider", rankLabel:"Worth Considering", color:"#6a1b9a",
+   center:[55.6730,12.5870], tag:"Canal charm and Christiania's free spirit",
+   stats:["🚤 Canal-side","🍽 Great dining","🎨 Unique vibe"],
+   desc:"One of the city's most picturesque areas, with Dutch-inspired canals, colorful houseboats, and Freetown Christiania. Very central (bike across the bridge to Nyhavn) with a bohemian energy. Lovely canal-side strolls and some excellent restaurants.",
+   why:["Beautiful canal walks, photogenic on summer evenings","5-minute bike to Nyhavn, Strøget, and the Royal Library","Church of Our Saviour's spiral tower (fun for older kids)","Good local restaurants along the canals"],
+   pros:["Most charming, unique area","Very central"], cons:["Fewer playgrounds than Frederiksberg/Østerbro","Christiania not ideal for toddlers (Pusher Street)"]}
+];
+
+/* ====================== PLACES ====================== */
+const PLACES = [
+  /* ---- THINGS TO DO (big hitters, unique, classic sights) ---- */
+  {cat:"hit", pri:"must", onlist:true, name:"Tivoli Gardens", area:"Next to Central Station", lat:55.6736, lng:12.5683,
+   site:"https://www.tivoli.dk/en", price:"Entry ~155 DKK · rides extra", img:W+"Tivoli_Gardens_4.jpg?width=800",
+   blurb:"Worth it and special, far cheaper than Disney and with no big character tie-ins. You can buy entry without a ride pass and still enjoy the gardens, flowers, and tame peacocks.",
+   kid:"<b>For the kids:</b> gentle rides for ages 3–5. The Flying Trunk, a slow H.C. Andersen boat ride, is the classic toddler favorite."},
+  {cat:"hit", pri:"must", onlist:true, name:"Copenhagen Zoo", area:"Frederiksberg", lat:55.6722, lng:12.5232,
+   site:"https://zoo.dk/en", price:"~225 DKK · under 3 free", img:W+"Copenhagen_Zoo_Tower_and_camel.jpg?width=800",
+   blurb:"Panda hack: book a table inside the panda house and eat right at the window while the panda eats too. Baby giraffes, a baby elephant, goat petting, and themed playgrounds throughout.",
+   kid:"<b>For Enzo:</b> animals everywhere. Get Hansens soft-serve at the ice cream huts."},
+  {cat:"hit", pri:"must", onlist:true, name:"Reffen street food market", area:"Refshaleøen", lat:55.6924, lng:12.6108,
+   site:"https://reffen.dk/", price:"Stalls vary", img:W+"Reffen_Copenhagen_Street_Food_Market_%285%29.jpg?width=800",
+   blurb:"Bike out on a nice day. Huge waterfront street-food market with a sandy hangout, climbing structures for kids, bars, a small brewery, and great people-watching.",
+   kid:"<b>For both:</b> sand to dig in, room to roam, something for every picky eater."},
+  {cat:"hit", pri:"must", name:"GoBoat (rent a solar picnic boat)", area:"Islands Brygge", lat:55.6628, lng:12.5790,
+   site:"https://goboat.dk/en/", price:"Boat hire by the hour · book ahead", img:W+"GoBoat%2C_Islands_Brygge_02.jpg?width=800",
+   blurb:"Rent a solar boat for a couple of hours, no license needed after a 10-minute intro. Seats up to 8 around a picnic table, so bring snacks and putter around the harbor.",
+   kid:"<b>For both:</b> a boat the family captains together. A standout memory."},
+  {cat:"hit", pri:"high", onlist:true, name:"Islands Brygge Harbour Bath", area:"Islands Brygge", lat:55.6640, lng:12.5800,
+   site:"https://www.visitcopenhagen.com/copenhagen/planning/islands-brygge-harbour-bath-gdk475992", price:"Free", img:W+"Harbour_Bath%2C_Islands_Brygge.jpg?width=800",
+   blurb:"Swim right in the clean city harbor, with a shallow kids' pool. Daylight runs past 10pm in summer, so evening dips are easy. Pair with GoBoat, which launches alongside.",
+   kid:"<b>For both:</b> a fenced kids' pool means a low-stress city swim."},
+  {cat:"hit", pri:"high", onlist:true, name:"CopenHill (Amager Bakke)", area:"Amager · half-day", lat:55.6913, lng:12.5910,
+   site:"https://www.copenhill.dk/en", price:"Hike free · ski/climb paid", img:W+"Copenhill%206.jpg?width=800",
+   blurb:"Walk or hike the rooftop of a working waste-to-energy plant, with a dry ski slope and one of the world's tallest outdoor climbing walls. Only-in-Copenhagen.",
+   kid:"<b>Grown-up time:</b> swap off while one parent takes the kids. Book climbing or skiing ahead."},
+  {cat:"hit", pri:"high", onlist:true, name:"Sauna Club Sydhavn", area:"Sydhavn · Enghave Brygge metro", lat:55.6525, lng:12.5575,
+   site:"https://saunaclubsydhavn.dk/en/", price:"Day ticket", img:W+"Sluseholmen_canal_scene_2.jpg?width=800", imgtag:"Sydhavn",
+   blurb:"The city's newest harbourside sauna club (opened early 2026), with gus sauna sessions and maritime views. Day tickets available without membership.",
+   kid:"<b>Grown-up time:</b> classic sauna-and-cold-dip culture, best enjoyed child-free."},
+  {cat:"hit", pri:"high", name:"Den Blå Planet (Blue Planet Aquarium)", area:"Kastrup · metro to Kastrup St.", lat:55.6380, lng:12.6560,
+   site:"https://denblaaplanet.dk/en/", price:"~190 DKK · under 3 free",
+   blurb:"Northern Europe's largest aquarium. An underwater tunnel, touch pools, and the “Wondrous Pond” where kids net tiny creatures. Outdoor water playground in summer.",
+   kid:"<b>For both:</b> mesmerizing for toddlers. A strong rainy-day or hot-day pick."},
+  {cat:"hit", pri:"option", name:"Nyhavn", area:"Indre By", lat:55.6797, lng:12.5913,
+   blurb:"The postcard canal of colored townhouses. Ice cream, herring lunches, and canal tours all launch from here.",
+   kid:"<b>For both:</b> harbor buses and canal boats leave from the quay."},
+  {cat:"hit", pri:"option", name:"The Little Mermaid", area:"Langelinie", lat:55.6928, lng:12.5993,
+   blurb:"The famously small statue. A quick photo stop, best combined with a Kastellet walk.",
+   kid:"<b>Quick stop:</b> 10 minutes, then on to the fortress ducks."},
+  {cat:"hit", pri:"option", name:"Amalienborg Palace", area:"Frederiksstaden", lat:55.6840, lng:12.5934,
+   blurb:"The royal residence, four palaces around an octagonal square. Changing of the guard around noon.",
+   kid:"<b>For Saya:</b> guards in bearskin hats; the square is free to wander."},
+  {cat:"hit", pri:"option", name:"Kastellet", area:"Østerbro", lat:55.6910, lng:12.5940,
+   blurb:"A star-shaped fortress with grass ramparts, a windmill, and a moat full of ducks. A lovely flat walk or bike.",
+   kid:"<b>For both:</b> ducks, ramparts to run, and the Mermaid next door."},
+
+  /* ---- MUSEUMS & INDOOR ---- */
+  {cat:"museum", pri:"must", name:"Nationalmuseet (National Museum)", area:"Indre By", lat:55.6745, lng:12.5755,
+   site:"https://en.natmus.dk/", price:"Free", img:W+"Nationalmuseet%20-%20main%20entrance.jpg?width=800",
+   blurb:"The kids' area is incredible: a Viking ship and a castle you climb inside plus dress-up boxes. The rest is fine for littles to roam, with a kids' platter in the restaurant. Free entry.",
+   kid:"<b>For Saya:</b> the climb-in castle. <b>For Enzo:</b> the Viking ship."},
+  {cat:"museum", pri:"must", name:"Danish Architecture Center (DAC / BLOX)", area:"Waterfront, near Central Station", lat:55.6709, lng:12.5778,
+   site:"https://dac.dk/en/", price:"Paid · slide inside", img:W+"BLOX_the_Building_Danish_Architecture_Center.jpg?width=800",
+   blurb:"An absolute must. A three-story slide runs inside the museum, plus an outdoor playground and a kids' craft area pitched at different ages. Tasty restaurant with kids' options.",
+   kid:"<b>For both:</b> the indoor slide is the whole trip as far as they're concerned."},
+  {cat:"museum", pri:"high", name:"Copenhagen Contemporary", area:"Refshaleøen (next to Reffen)", lat:55.6930, lng:12.6120,
+   site:"https://copenhagencontemporary.org/en/", img:W+"Copenhagen_Contemporary_Refshale%C3%B8en.jpg?width=800",
+   blurb:"A kids' craft wing tied to the main exhibit, very kid-friendly. Check the current theme first; the shows can be edgy.",
+   kid:"<b>Pair with Reffen</b> next door for an easy half day on Refshaleøen."},
+  {cat:"museum", pri:"option", name:"Natural History Museum of Denmark", area:"By the Botanical Garden", lat:55.6873, lng:12.5730,
+   site:"https://snm.ku.dk/english/", img:W+"Statens_Naturhistoriske_Museum_2015.jpg?width=800",
+   blurb:"Small, charming, and doable end to end with small kids, with a chill kids' cafe. Check the website first: it may close for summer renovations.",
+   kid:"<b>For Enzo:</b> animals and natural history in a one-hour-sized museum."},
+  {cat:"museum", pri:"must", onlist:true, name:"Experimentarium", area:"Hellerup · ~15 min by train/metro", lat:55.7290, lng:12.5790,
+   site:"https://www.experimentarium.dk/en/", price:"~210 DKK · under 3 free", img:W+"Experimentarium%2C%20Hellerup.jpg?width=800",
+   blurb:"A huge hands-on science center where everything is built to be touched. The Miniverse zone is designed for ages 1–5, so both kids get their own lab-playground.",
+   kid:"<b>For both:</b> Miniverse (ages 1–5) is the whole reason to go. Perfect rainy-day backup."},
+  {cat:"museum", pri:"high", onlist:true, name:"Designmuseum Danmark", area:"Frederiksstaden · near Amalienborg", lat:55.6873, lng:12.5905,
+   site:"https://designmuseum.dk/en/", img:W+"Designmuseum_Danmark.jpg?width=800",
+   blurb:"Denmark's design museum: chairs, ceramics, posters, and the famous corridor of Danish modern classics. A calm, grown-up hour or two with a pretty garden cafe.",
+   kid:"<b>Grown-up lean:</b> kids tolerate it. Pair with an Amalienborg stroll."},
+  {cat:"museum", pri:"option", name:"Copenhagen Main Library (kids' floor)", area:"Indre By · Krystalgade", lat:55.6808, lng:12.5636,
+   site:"https://bibliotek.kk.dk/", price:"Free",
+   blurb:"The children's floor is a bright indoor playroom with books, toys, games, and creative stations. Free, comfortable, and a perfect escape on a rainy or hot day.",
+   kid:"<b>For both:</b> a free, calm reset in the middle of town."},
+
+  /* ---- PLAYGROUNDS, PARKS & BEACHES ---- */
+  {cat:"play", pri:"high", name:"Tower Playground (Tårnlegepladsen), Fælledparken", area:"Østerbro · free", lat:55.7008, lng:12.5710,
+   site:"https://www.visitcopenhagen.com/copenhagen/planning/playground-with-towers-in-faelledparken-gdk570166", price:"Free", img:W+"Trafiklegepladsen_F%C3%A6lledparken_01.jpg?width=800", imgtag:"Fælledparken",
+   blurb:"Five climbable mini-versions of Copenhagen's famous towers with rope bridges between them. Staffed building open 10:00–15:30 for borrowing balls and sand toys.",
+   kid:"<b>For Saya:</b> castle-tower turrets for the princess phase."},
+  {cat:"play", pri:"high", name:"Children's Traffic Playground (Trafiklegepladsen)", area:"Østerbro · Fælledparken · free", lat:55.7025, lng:12.5690,
+   price:"Free",
+   blurb:"A miniature city with real traffic lights, road signs, crosswalks, and little bikes and go-karts to ride. Staffed in summer.",
+   kid:"<b>For both:</b> Saya and Enzo will go absolutely wild here."},
+  {cat:"play", pri:"high", name:"Bondegården farm playground, Remiseparken", area:"Amager (Urbanplanen) · free", lat:55.6553, lng:12.6070,
+   site:"https://www.urbanplanen.com/bondegarden", price:"Free", img:W+"City%20petting%20farm.jpg?width=800", imgtag:"Petting farm",
+   blurb:"A free, staffed farm playground with ponies, goats, pigs, a cow, hens, and rabbits, plus pony and cart rides. Next door: a construction playground with a giant castle and a dragon slide.",
+   kid:"<b>Two-in-one:</b> animals for Enzo, the dragon-slide castle for Saya."},
+  {cat:"play", pri:"high", name:"King's Garden dragon playground (Kongens Have)", area:"Indre By · free", lat:55.6860, lng:12.5790,
+   price:"Free",
+   blurb:"Copenhagen's oldest park, with a wonderful dragon-themed playground, a summer puppet theater, and wide lawns next to Rosenborg Castle. Free and always open.",
+   kid:"<b>For both:</b> dragon playground plus space to run; combine with Rosenborg."},
+  {cat:"play", pri:"option", name:"Skydebanehaven Playground", area:"Vesterbro · free", lat:55.6660, lng:12.5570,
+   price:"Free",
+   blurb:"One of the city's best adventure playgrounds: a giant parrot slide, sand pits, climbing structures, and a staffed cafe. Shaded, very popular with local families.",
+   kid:"<b>For ages 2–6:</b> a great Vesterbro afternoon."},
+  {cat:"play", pri:"high", name:"Amager Strandpark (beach)", area:"Amager · ~15 min bike · free", lat:55.6530, lng:12.6340,
+   price:"Free",
+   blurb:"A proper sandy beach with shallow, calm water, summer lifeguards, and a long boardwalk. The lagoon side is very shallow and warm, perfect for toddler wading. Bring a picnic.",
+   kid:"<b>For both:</b> a real beach day inside the city."},
+  {cat:"play", pri:"high", name:"Frederiksberg Gardens", area:"Frederiksberg · free", lat:55.6717, lng:12.5248,
+   price:"Free",
+   blurb:"Romantic free gardens of canals, lawns, and herons, right beside the Zoo (you can spot elephants from the park). Rowboats in summer and big open space.",
+   kid:"<b>For both:</b> easy repeat visits; pair with the Zoo for a full day."},
+
+  /* ---- DAY TRIPS ---- */
+  {cat:"trip", pri:"high", name:"Louisiana Museum of Modern Art", area:"Humlebæk · ~36 min train", lat:55.9696, lng:12.5429,
+   site:"https://louisiana.dk/en/", price:"~145 DKK · under 18 free", img:W+"Outside_Louisiana_Museum_of_Modern_Art.jpg?width=800",
+   blurb:"A whole kids' wing plus a seaside sculpture garden and a great restaurant. A special spot, but a full day between train and walk, and it gets crowded later, so go early.",
+   kid:"<b>Weekend pick:</b> art for you, sculpture park and sea for them.",
+   ages:"Art workshops for ages 3+", duration:"Half to full day"},
+  {cat:"trip", pri:"high", name:"Frilandsmuseet (Open Air Museum)", area:"Kongens Lyngby · ~25 min train + walk", lat:55.7670, lng:12.5010,
+   site:"https://en.natmus.dk/museums-and-palaces/the-open-air-museum/", price:"Free", img:W+"Frilandsmuseet%2C_2014-03-15%2C_skr%C3%A5t_fra_h%C3%B8jre.jpg?width=800",
+   blurb:"Historic Danish farms and homes across huge grounds. Kids pet rabbits, pump old wells, play shopkeeper in a miniature village, and roam original playgrounds. Free entry.",
+   kid:"<b>For both:</b> farm animals plus dress-up history, all outdoors.",
+   ages:"All ages", duration:"Half to full day"},
+  {cat:"trip", pri:"high", name:"Dyrehaven deer park + Bakken", area:"Klampenborg · ~20 min S-train", lat:55.7900, lng:12.5760,
+   site:"https://www.bakken.dk/", price:"Free entry · rides per-ride", img:W+"Dyrehaven_-_Klampenborg_Port_%281%29.jpg?width=800",
+   blurb:"A free royal forest with 2,000+ free-roaming deer next to Bakken, the world's oldest amusement park, where entry is free and you pay per ride. Easy to combine.",
+   kid:"<b>For both:</b> wild deer up close, then gentle old-school rides. Calmer and cheaper than Tivoli.",
+   ages:"All ages", duration:"Half to full day"},
+  {cat:"trip", pri:"option", name:"Bellevue Beach", area:"Klampenborg · ~20 min S-train", lat:55.7660, lng:12.5920,
+   price:"Free",
+   blurb:"Copenhagen's prettiest beach: white sand, Blue Flag water, and Arne Jacobsen's iconic lifeguard towers. Shallow water, great for toddlers. Combine with Bakken and Dyrehaven.",
+   kid:"<b>For both:</b> stack it with the deer park for one big northern day.",
+   ages:"All ages", duration:"Half day"},
+  {cat:"trip", pri:"high", name:"Viking Ship Museum", area:"Roskilde · ~25 min train west", lat:55.6510, lng:12.0800,
+   site:"https://www.vikingeskibsmuseet.dk/en", price:"~160 DKK · under 18 free",
+   blurb:"Five original Viking ships plus a working boatyard. In summer, kids can try rowing a Viking boat on the fjord, do rope-making, and dress in Viking gear. A standout day trip.",
+   kid:"<b>For both:</b> rowing a real boat beats any museum case.",
+   ages:"Great for ages 3+", duration:"Half to full day"},
+
+  /* ---- EAT & DRINK ---- */
+  {cat:"eat", etype:"Family cafe", name:"Tilda og Karl", area:"Nørrebro", lat:55.6905, lng:12.5550, price:"💰💰",
+   img:W+"J%C3%A6gersborggade%20%28N%C3%B8rrebro%29.jpg?width=800", imgtag:"Nørrebro",
+   blurb:"A genuine kids'-play-corner cafe with games, toys, coloring, a real children's menu, and even baby food. Organic, from-scratch meals for the adults.",
+   kid:"<b>Default lunch</b> when the kids need to move and you need coffee."},
+  {cat:"eat", etype:"Seafood", name:"Hooked", area:"Nørrebro + city center", lat:55.6905, lng:12.5560, price:"💰💰",
+   img:W+"Fish_and_chips_at_Sainsbury%27s_Low_Hall%2C_Chingford%2C_London.jpg?width=800", imgtag:"Fish & chips",
+   blurb:"Casual, sustainable seafood: fish & chips, lobster rolls, poke bowls. Counter-service, reasonable prices, several locations around town.",
+   kid:"<b>Crowd-pleaser:</b> fried fish both kids will actually eat."},
+  {cat:"eat", etype:"Seafood + grill", name:"Oysters & Grill", area:"Nørrebro", lat:55.6985, lng:12.5490, price:"💰💰💰",
+   img:W+"Oysters_served_on_ice%2C_with_lemon_and_parsley.jpg?width=800", imgtag:"Oysters",
+   blurb:"Lively neighborhood spot for oysters, langoustines, steak tartare, and grills. Better for a livelier family dinner or a date night.",
+   kid:"<b>For you two:</b> a step up while still casual and kid-tolerant."},
+  {cat:"eat", etype:"Bakery", name:"Ole & Steen / Lagkagehuset by the Lakes", area:"Nørrebro · the Lakes", lat:55.6900, lng:12.5560, price:"💰",
+   img:W+"Cityscape_and_skyline_by_the_Copenhagen_Lakes%2C_Denmark_-_%2836018109956%29.jpg?width=800", imgtag:"The Lakes",
+   blurb:"Classic Danish bakery with a lakeside spot and a small toys-and-books table for toddlers. Cinnamon socials and good coffee.",
+   kid:"<b>Breakfast fuel</b> before a playground run."},
+  {cat:"eat", etype:"Bistro", name:"Cofoco", area:"Vesterbro · near Central Station", lat:55.6680, lng:12.5520, price:"💰💰💰",
+   site:"https://cofoco.dk/en/", img:W+"S%C3%B8nder%20Boulevard%2001.jpg?width=800", imgtag:"Vesterbro",
+   blurb:"Affordable, elegant sharing plates of seasonal Danish produce, with a good-value set menu. The Cofoco group runs several kid-friendly rooms nearby.",
+   kid:"<b>Nicer dinner</b> that still works with kids."},
+  {cat:"eat", etype:"French bistro", name:"Les Trois Cochons (Værnedamsvej)", area:"Vesterbro", lat:55.6718, lng:12.5535, price:"💰💰",
+   img:W+"V%C3%A6rnedamsvej.JPG?width=800", imgtag:"Værnedamsvej",
+   blurb:"Warm French bistro from the Cofoco people on 'little Paris' street Værnedamsvej, known for quality at a fair price. Lovely block to stroll.",
+   kid:"<b>Early seating</b> works well for a family dinner out."},
+  {cat:"eat", etype:"Seafood", name:"Kødbyens Fiskebar", area:"Kødbyen (Meatpacking)", lat:55.6655, lng:12.5600, price:"💰💰💰",
+   img:W+"Copenhagen%2C%20K%C3%B8dbyen%20by%20night%2C%20September%202022.jpg?width=800", imgtag:"Kødbyen",
+   blurb:"The city's beloved seafood spot in a converted industrial space: fresh, sustainably sourced fish and shellfish. Casual-cool, buzzy. Reservations recommended.",
+   kid:"<b>For you two:</b> great fish; manageable with kids at early sittings."},
+  {cat:"eat", etype:"Mexican", name:"Sanchez", area:"Istedgade · Vesterbro", lat:55.6668, lng:12.5510, price:"💰💰",
+   img:W+"001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg?width=800", imgtag:"Tacos",
+   blurb:"Rosio Sanchez's bright Mexican kitchen blending Danish and Mexican ingredients. Fantastic tacos and an easygoing room on the good end of Istedgade.",
+   kid:"<b>Tacos</b> are usually an easy yes for both kids."},
+  {cat:"eat", etype:"Italian", name:"Mangia", area:"Vesterbro", lat:55.6690, lng:12.5500, price:"💰💰",
+   img:W+"Pasta%20primavera.jpg?width=800", imgtag:"Pasta",
+   blurb:"Cozy traditional Italian with handmade pasta. Pasta plus a calm room makes this a reliable family fallback near the station.",
+   kid:"<b>Pasta:</b> the universal kid order."},
+  {cat:"eat", etype:"Seafood", name:"Fiskemarkedet", area:"Near Nyhavn", lat:55.6803, lng:12.5875, price:"💰💰💰",
+   blurb:"A laid-back seafood bistro with a French backbone: raw oysters, grilled langoustines, ceviche, and a strong wine list. Waterfront-adjacent.",
+   kid:"<b>Better for</b> a parents' night out."},
+  {cat:"eat", etype:"Nordic seafood", name:"Restaurant Barr", area:"Christianshavn (waterfront)", lat:55.6808, lng:12.5895, price:"💰💰💰",
+   blurb:"From the Noma team, focused on North Sea cuisine: seasonal seafood, craft beer, a cozy wooden room with harbor views. A step up but not stuffy.",
+   kid:"<b>Doable at lunch,</b> more adult at dinner."},
+  {cat:"eat", etype:"Sushi", name:"Sticks'n'Sushi", area:"Multiple locations", lat:55.6770, lng:12.5720, price:"💰💰💰",
+   blurb:"A Copenhagen-born sushi chain with beautiful interiors and kids' bento boxes (hosomaki, nigiri, yakitori sticks), activity sheets, and a chocolate fish at the end.",
+   kid:"<b>Excellent for kids:</b> a real kids' menu and activity sheets."},
+  {cat:"eat", etype:"Food hall", name:"Torvehallerne (food hall)", area:"Nørreport", lat:55.6838, lng:12.5710, price:"💰–💰💰",
+   blurb:"Copenhagen's main food hall with seafood stalls, smørrebrød, porridge, coffee, and more. Perfect for grazing with kids, since everyone picks what they want.",
+   kid:"<b>Perfect:</b> everyone chooses their own."},
+  {cat:"eat", etype:"Nordic", name:"Selma", area:"Østerbro", lat:55.6965, lng:12.5685, price:"💰💰💰",
+   blurb:"A neighborhood bistro celebrated for modern smørrebrød and seasonal Nordic dishes. Cozy and intimate, near Fælledparken.",
+   kid:"<b>Early-dinner</b> friendly."},
+  {cat:"eat", etype:"Cafe", name:"The Laundromat Café", area:"Nørrebro (+ others)", lat:55.6890, lng:12.5630, price:"💰💰",
+   blurb:"Part cafe, part laundromat, part library. Great brunch, a small play corner for kids, and a huge book collection. A Copenhagen institution.",
+   kid:"<b>Play corner</b> and high chairs; very family-welcoming."},
+  {cat:"eat", etype:"Cafe (porridge)", name:"GRØD", area:"Torvehallerne (+ others)", lat:55.6840, lng:12.5715, price:"💰",
+   blurb:"Danish porridge elevated to an art form: creamy oat bowls with seasonal toppings, savory and sweet. A wholesome breakfast stop.",
+   kid:"<b>Porridge</b> = toddler heaven."},
+  {cat:"eat", etype:"Museum cafe", name:"Café Picnic (Glyptoteket)", area:"Indre By", lat:55.6725, lng:12.5718, price:"💰💰",
+   blurb:"Inside the Glyptotek art museum, overlooking the winter garden of palms and statues. Half-price, half-portion kids' meals. Art museum + cafe = perfect rainy day.",
+   kid:"<b>Half-price kids' meals</b> in a beautiful setting."},
+  {cat:"eat", etype:"Bakery", name:"Meyers Bageri", area:"Frederiksberg (+ others)", lat:55.6830, lng:12.5350, price:"💰",
+   blurb:"The gold standard of Danish bakeries: flaky pastries, sourdough, and excellent coffee. A good morning ritual for a 3-week stay.",
+   kid:"<b>Easy grab-and-go</b> with kids."},
+  {cat:"eat", etype:"Coffee", name:"Original Coffee", area:"Østerbro (Nordre Frihavnsgade)", lat:55.6970, lng:12.5760, price:"💰",
+   blurb:"Specialty coffee on Østerbro's main cafe street. Great flat whites, pastries, and a relaxed neighborhood feel for people-watching.",
+   kid:"<b>Relaxed,</b> with outdoor seating in summer."},
+  {cat:"eat", etype:"Bakery", name:"Hart Bageri", area:"Vesterbro", lat:55.6670, lng:12.5560, price:"💰",
+   blurb:"Founded by a former Noma baker: serious bread and pastry, cardamom buns, rye, seasonal pastries. Small space, worth the stop.",
+   kid:"<b>Quick stop</b> on a morning bike ride."},
+  {cat:"eat", etype:"Veg cafe", name:"Morgenstedet", area:"Christiania", lat:55.6710, lng:12.5930, price:"💰",
+   blurb:"A vegetarian cafe inside Christiania, running 20+ years. Warm, earthy, with high chairs and changing tables. An adventurous lunch stop.",
+   kid:"<b>Child-friendly food,</b> high chairs and changing tables."}
+];
+
+/* personal pins, public-safe (first name + neighborhood only; details live in the crew-only file) */
+const PERSONAL = [
+  {type:"base", name:HOME_BASE.name, area:HOME_BASE.area, lat:HOME_BASE.lat, lng:HOME_BASE.lng,
+   tag:HOME_BASE.status, blurb:HOME_BASE.note},
+  {type:"me", name:"Tobias & family", area:"Hellerup", lat:55.7280, lng:12.5840,
+   blurb:"Cousin Tobias and his two boys, in the coastal suburb of Hellerup on the Øresund. Great for playdates, and close to Experimentarium, Bellevue, Bakken, and Dyrehaven. ~20 min bike from Østerbro."},
+  {type:"me", name:"UCPH colleagues", area:"Nørrebro", lat:55.7065, lng:12.5480,
+   blurb:"Kai's University of Copenhagen colleagues, an easy bike from central Copenhagen."}
+];
+
+/* ====================== MAP ====================== */
+const map = L.map('map',{scrollWheelZoom:false}).setView([55.6761,12.5683],12);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+  maxZoom:19, attribution:'&copy; OpenStreetMap &copy; CARTO'
+}).addTo(map);
+
+function placePopup(p){
+  const extra = p.price ? '<br><span style="color:#6f685e">'+p.price+'</span>' : '';
+  return '<b>'+p.name+'</b><br><span style="color:#6f685e">'+p.area+'</span>'+extra+
+    '<br><a href="'+maps(stripParen(p.name))+'" target="_blank" rel="noopener">Open in Maps ↗</a>'+
+    (p.site?' · <a href="'+p.site+'" target="_blank" rel="noopener">Website ↗</a>':'');
+}
+
+const placeMarkers = PLACES.map((p)=>{
+  const m = L.circleMarker([p.lat,p.lng],{radius:7,color:'#fff',weight:2,fillColor:CAT[p.cat].color,fillOpacity:1});
+  m.bindPopup(placePopup(p));
+  m.bindTooltip(stripParen(p.name),{permanent:true,direction:'top',className:'auto-lbl',offset:[0,-4]});
+  return m;
+});
+
+const neighMarkers = {};
+NEIGHBORHOODS.forEach(n=>{
+  const m = L.circleMarker(n.center,{radius:15,color:'#fff',weight:3,fillColor:n.color,fillOpacity:.85});
+  m.bindTooltip(n.name,{permanent:true,direction:'top',offset:[0,-15],className:'neigh-lbl'});
+  m.bindPopup('<b>'+n.name+'</b><br><span style="color:#6f685e">'+n.tag+'</span>');
+  m.on('click',()=>{const el=document.getElementById('nb-'+n.key); if(el){el.scrollIntoView({behavior:'smooth',block:'center'});flashCard(el);}});
+  neighMarkers[n.key]=m;
+});
+
+const personalMarkers = PERSONAL.map(pp=>{
+  let m;
+  if(pp.type==="base"){
+    m = L.marker([pp.lat,pp.lng],{icon:L.divIcon({className:'',html:
+      '<div style="font-size:24px;line-height:24px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))">★</div>',
+      iconSize:[24,24],iconAnchor:[12,12]})});
+  } else {
+    m = L.marker([pp.lat,pp.lng],{icon:L.divIcon({className:'',html:
+      '<div style="background:#111;color:#fff;padding:3px 8px;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)">🏠 '+pp.name+'</div>',
+      iconAnchor:[0,14]})});
+  }
+  m.bindPopup('<b>'+pp.name+'</b><br><span style="color:#6f685e">'+pp.area+(pp.tag?' · '+pp.tag:'')+'</span><br><span style="font-size:12px">'+pp.blurb+'</span>',{maxWidth:280});
+  return m;
+});
+
+const mapEl = document.getElementById('map');
+function updateLabels(){ mapEl.classList.toggle('labels-on', map.getZoom()>=13); }
+map.on('zoomend', updateLabels);
+
+// fit to in-city points (exclude far day trips so it doesn't zoom way out)
+const fitPts = PLACES.filter(p=>p.cat!=='trip').map(p=>[p.lat,p.lng])
+  .concat(NEIGHBORHOODS.map(n=>n.center)).concat([[HOME_BASE.lat,HOME_BASE.lng]]);
+function fitAll(){ map.invalidateSize(); if(fitPts.length) map.fitBounds(fitPts,{padding:[30,30],maxZoom:14}); updateLabels(); }
+fitAll();
+setTimeout(fitAll, 300);
+window.addEventListener('load', fitAll);
+// Robust against containers that get their real size late (embedded preview panels, etc.)
+if(window.ResizeObserver){
+  const ro=new ResizeObserver(()=>{ if(mapEl.clientWidth>0 && mapEl.clientHeight>0){ fitAll(); ro.disconnect(); } });
+  ro.observe(mapEl);
+}
+
+/* ====================== FILTERS ====================== */
+const active = new Set(Object.keys(CAT));
+let onlyList = false;
+const chips = {};
+const fbar = document.getElementById('filters');
+
+const listBtn = document.createElement('button');
+listBtn.className='toggle';
+listBtn.innerHTML='<span class="dot" style="background:#e8b923"></span>★ Shortlist only';
+listBtn.onclick=()=>{ onlyList=!onlyList; listBtn.classList.toggle('on',onlyList); render(); };
+fbar.appendChild(listBtn);
+
+Object.entries(CAT).forEach(([key,v])=>{
+  const b=document.createElement('button');
+  b.className='filter'; b.setAttribute('aria-pressed','true');
+  b.innerHTML='<span class="dot" style="background:'+v.color+'"></span>'+v.label;
+  b.onclick=()=>{
+    if(active.has(key)){active.delete(key);} else {active.add(key);}
+    syncChips(); render();
+  };
+  chips[key]=b; fbar.appendChild(b);
+});
+function syncChips(){ Object.entries(chips).forEach(([k,b])=>b.setAttribute('aria-pressed', active.has(k)?'true':'false')); }
+
+/* ====================== RENDER ====================== */
+const sections = document.getElementById('sections');
+
+function toggleMarker(m,show){ if(show){ if(!map.hasLayer(m)) m.addTo(map);} else { if(map.hasLayer(m)) map.removeLayer(m);} }
+
+function badges(p){
+  let h='';
+  if(p.onlist) h+='<span class="badge b-list">★ shortlist</span>';
+  if(p.cat==='eat'){ if(p.etype) h+='<span class="badge b-eat">'+p.etype+'</span>'; if(p.price) h+='<span class="chip">'+p.price+'</span>'; }
+  else if(PRI[p.pri]) h+='<span class="badge '+PRI[p.pri][1]+'">'+PRI[p.pri][0]+'</span>';
+  h+='<span class="chip">'+p.area+'</span>';
+  return h;
+}
+
+function placeCard(p,i){
+  const c=document.createElement('div');
+  c.className='card'; c.style.borderLeftColor=CAT[p.cat].color;
+  const photoHref=photos(stripParen(p.name));
+  const photo='<a class="photo" href="'+photoHref+'" target="_blank" rel="noopener" style="background:linear-gradient(135deg,'+CAT[p.cat].color+'33,'+CAT[p.cat].color+'bb)">'+
+    (p.img?'<img class="ph" src="'+p.img+'" loading="lazy" referrerpolicy="no-referrer" alt="" onerror="this.remove()">':'')+
+    (p.imgtag?'<span class="imgtag">'+p.imgtag+'</span>':'')+
+    '<span class="cam">📷 See photos</span></a>';
+  const meta = (p.cat==='trip' && p.ages) ? '<p class="meta">👶 '+p.ages+(p.duration?' · ⏱ '+p.duration:'')+(p.price?' · '+p.price:'')+'</p>' : '';
+  c.innerHTML = photo+
+    '<div class="row"><h3>'+p.name+'</h3></div>'+
+    '<div class="row">'+badges(p)+'</div>'+
+    '<p class="blurb">'+p.blurb+'</p>'+
+    (p.kid?'<p class="kid">'+p.kid+'</p>':'')+ meta +
+    '<div class="links"><a href="'+maps(stripParen(p.name))+'" target="_blank" rel="noopener">Open in Maps ↗</a>'+
+    (p.site?'<a href="'+p.site+'" target="_blank" rel="noopener">Website ↗</a>':'')+
+    '<a href="'+photoHref+'" target="_blank" rel="noopener">More photos ↗</a></div>';
+  c.onclick=(e)=>{ if(e.target.closest('a'))return; focusPlace(i); };
+  return c;
+}
+
+function meCard(pp){
+  const c=document.createElement('div');
+  c.className='card'; c.style.borderLeftColor='#111';
+  c.innerHTML='<div class="row"><h3>'+(pp.type==='base'?'★ ':'🏠 ')+pp.name+'</h3></div>'+
+    '<div class="row">'+(pp.tag?'<span class="badge b-high">'+pp.tag+'</span>':'')+'<span class="chip">'+pp.area+'</span></div>'+
+    '<p class="blurb">'+pp.blurb+'</p>';
+  c.onclick=()=>{ document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'}); map.flyTo([pp.lat,pp.lng],14,{duration:.7}); };
+  return c;
+}
+
+function nearbyChips(center){
+  const items = PLACES.map((p,i)=>({p,i,d:dist(center[0],center[1],p.lat,p.lng)}))
+    .filter(x=>x.p.cat!=='trip')
+    .sort((a,b)=>a.d-b.d).slice(0,6);
+  return items.map(x=>'<span class="near-chip" onclick="focusPlace('+x.i+')">'+stripParen(x.p.name)+' <span class="d">'+x.d.toFixed(1)+' km</span></span>').join('');
+}
+
+function neighSection(){
+  const sec=document.createElement('section'); sec.className='block'; sec.id='sec-stay';
+  sec.innerHTML='<h2 class="section-head" id="stay"><span class="swatch" style="background:'+CAT.neigh.color+'"></span>'+CAT.neigh.head+'</h2>';
+  const grid=document.createElement('div'); grid.className='nb-grid';
+  NEIGHBORHOODS.forEach(n=>{
+    const rankColor = n.rank==='top'?'#c4883a':(n.rank==='strong'?'#2d6a7a':'#8a8a8a');
+    const card=document.createElement('div'); card.className='nb'; card.id='nb-'+n.key;
+    card.style.borderTopColor=n.color;
+    card.innerHTML=
+      '<span class="nb-rank" style="background:'+rankColor+'">'+n.rankLabel+'</span>'+
+      '<h3 class="nb-name">'+n.name+'</h3>'+
+      '<p class="nb-tag">'+n.tag+'</p>'+
+      '<div class="nb-stats">'+n.stats.map(s=>'<span class="nb-stat">'+s+'</span>').join('')+'</div>'+
+      '<p class="nb-desc">'+n.desc+'</p>'+
+      '<div class="nb-h">Why it works for you</div>'+
+      '<ul class="nb-why">'+n.why.map(w=>'<li>'+w+'</li>').join('')+'</ul>'+
+      '<div class="pc">'+n.pros.map(p=>'<div class="pro">+ '+p+'</div>').join('')+n.cons.map(c=>'<div class="con">– '+c+'</div>').join('')+'</div>'+
+      '<div class="nearby"><div class="nb-h">What\'s nearby</div>'+nearbyChips(n.center)+'</div>';
+    card.onclick=(e)=>{ if(e.target.closest('.near-chip'))return;
+      document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});
+      map.flyTo(n.center,14,{duration:.7}); neighMarkers[n.key].openPopup(); };
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);
+  return sec;
+}
+
+function catSection(cat){
+  const sec=document.createElement('section'); sec.className='block'; sec.id='sec-'+CAT[cat].anchor;
+  sec.innerHTML='<h2 class="section-head" id="'+CAT[cat].anchor+'"><span class="swatch" style="background:'+CAT[cat].color+'"></span>'+CAT[cat].head+'</h2>';
+  const grid=document.createElement('div'); grid.className='grid';
+  if(cat==='me'){
+    PERSONAL.forEach(pp=>grid.appendChild(meCard(pp)));
+  } else {
+    PLACES.forEach((p,i)=>{ if(p.cat===cat && (!onlyList || p.onlist)) grid.appendChild(placeCard(p,i)); });
+  }
+  sec.appendChild(grid);
+  return sec;
+}
+
+function render(){
+  // markers
+  PLACES.forEach((p,i)=>toggleMarker(placeMarkers[i], active.has(p.cat) && (!onlyList || p.onlist)));
+  NEIGHBORHOODS.forEach(n=>toggleMarker(neighMarkers[n.key], active.has('neigh') && !onlyList));
+  personalMarkers.forEach(m=>toggleMarker(m, active.has('me') && !onlyList));
+  updateLabels();
+  // cards
+  sections.innerHTML='';
+  if(active.has('neigh') && !onlyList) sections.appendChild(neighSection());
+  ORDER.forEach(cat=>{
+    if(!active.has(cat)) return;
+    if(cat==='me'){ if(!onlyList) sections.appendChild(catSection('me')); return; }
+    const any = PLACES.some(p=>p.cat===cat && (!onlyList || p.onlist));
+    if(any) sections.appendChild(catSection(cat));
+  });
+}
+
+function focusPlace(i){
+  const p=PLACES[i];
+  if(!active.has(p.cat)){ active.add(p.cat); syncChips(); render(); }
+  document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});
+  map.flyTo([p.lat,p.lng],15,{duration:.7});
+  setTimeout(()=>placeMarkers[i].openPopup(),750);
+}
+
+function flashCard(el){ el.style.transition='box-shadow .2s'; el.style.boxShadow='0 0 0 3px rgba(193,68,46,.55)'; setTimeout(()=>el.style.boxShadow='',1200); }
+
+function goSection(cat, anchor){
+  if(!active.has(cat)){ active.add(cat); syncChips(); }
+  if(onlyList && (cat==='neigh'||cat==='me')){ onlyList=false; listBtn.classList.remove('on'); }
+  render();
+  const el=document.getElementById(anchor);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+render();
+</script>
+</body>
+</html>
