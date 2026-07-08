@@ -353,11 +353,11 @@ const PLACES = [
    site:"https://reffen.dk/", price:"Stalls vary", img:W+"Reffen_Copenhagen_Street_Food_Market_%285%29.jpg?width=800",
    blurb:"Bike out on a nice day. Huge waterfront street-food market with a sandy hangout, climbing structures for kids, bars, a small brewery, and great people-watching.",
    kid:"<b>For both:</b> sand to dig in, room to roam, something for every picky eater."},
-  {cat:"hit", pri:"must", name:"GoBoat (rent a solar picnic boat)", area:"Islands Brygge", lat:55.6628, lng:12.5790,
+  {cat:"hit", pri:"must", name:"GoBoat (rent a solar picnic boat)", area:"Islands Brygge", lat:55.6691, lng:12.5786,
    site:"https://goboat.dk/en/", price:"Boat hire by the hour · book ahead", img:W+"GoBoat%2C_Islands_Brygge_02.jpg?width=800",
    blurb:"Rent a solar boat for a couple of hours, no license needed after a 10-minute intro. Seats up to 8 around a picnic table, so bring snacks and putter around the harbor. Earmarked for Kai's 40th: <a href='#birthday'>see the birthday plan</a>.",
    kid:"<b>For both:</b> a boat the family captains together. A standout memory."},
-  {cat:"hit", pri:"high", onlist:true, name:"Islands Brygge Harbour Bath", area:"Islands Brygge", lat:55.6640, lng:12.5800,
+  {cat:"hit", pri:"high", onlist:true, name:"Islands Brygge Harbour Bath", area:"Islands Brygge", lat:55.6685, lng:12.5775,
    site:"https://www.visitcopenhagen.com/copenhagen/planning/islands-brygge-harbour-bath-gdk475992", price:"Free", img:W+"Harbour_Bath%2C_Islands_Brygge.jpg?width=800",
    blurb:"Swim right in the clean city harbor, with a shallow kids' pool. Daylight runs past 10pm in summer, so evening dips are easy. Pair with GoBoat, which launches alongside.",
    kid:"<b>For both:</b> a fenced kids' pool means a low-stress city swim."},
@@ -775,8 +775,8 @@ render();
 /* ====================== BIRTHDAY CRUISE MAP ====================== */
 // Pins and the dashed loop are deliberately approximate; the official mooring map is on the boat.
 const BSTOPS = [
-  {n:1, lat:55.6628, lng:12.5790, name:"GoBoat dock · Islands Brygge", q:"GoBoat Islands Brygge",
-   note:"Check-in and the 10-minute intro; life jackets for the kids. The harbour bath is right alongside."},
+  {n:1, lat:55.6691, lng:12.5786, name:"GoBoat dock · Islands Brygge", q:"GoBoat Islands Brygge",
+   note:"Check-in and the 10-minute intro; life jackets for the kids. Right under Langebro, with the harbour bath alongside."},
   {n:2, lat:55.6750, lng:12.5757, name:"Frederiksholms Kanal", q:"Marmorbroen",
    note:"Christiansborg and the Marble Bridge from water level."},
   {n:3, lat:55.6714, lng:12.5873, name:"Circle Bridge (Cirkelbroen)", q:"Cirkelbroen",
@@ -800,10 +800,10 @@ const BLAND = [
   {icon:"⚓", lat:55.6738, lng:12.5946, name:"Christianshavn quay", q:"Overgaden Neden Vandet",
    note:"Canal-side kiosks and cafés for quick provisioning."},
   {icon:"🌿", lat:55.6597, lng:12.5807, name:"Green Island", q:"Havnevigen Islands Brygge",
-   note:"Harbor picnic islet and leg-stretch spot near the dock. Location approximate; check the mooring map on board."}
+   note:"Harbor picnic islet and leg-stretch spot, a short detour south of the dock. Location approximate; check the mooring map on board."}
 ];
 const BROUTE_MAIN = [
-  [55.6628,12.5790],[55.6656,12.5801],[55.6690,12.5792],[55.6708,12.5780],[55.6717,12.5772],
+  [55.6691,12.5786],[55.6698,12.5776],[55.6708,12.5773],[55.6717,12.5772],
   [55.6733,12.5762],[55.6750,12.5757],[55.6769,12.5790],[55.6774,12.5820],[55.6771,12.5849],
   [55.6763,12.5862],[55.6738,12.5868],[55.6714,12.5873],[55.6721,12.5905],[55.6727,12.5928],
   [55.6741,12.5951],[55.6756,12.5972],[55.6771,12.5977],[55.6786,12.5974],[55.6795,12.5952],
