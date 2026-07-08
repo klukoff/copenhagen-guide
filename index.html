@@ -61,6 +61,7 @@
   .b-option{background:#eee9e1;color:#7a7264}
   .b-list{background:#f6e2a8;color:#7d6310}
   .b-eat{background:#f3e3e0;color:#a23a28}
+  .b-host{background:#e2efe6;color:#1e6b43}
   .chip{font-size:11.5px;color:var(--muted);background:#f4efe7;border-radius:6px;padding:2px 7px}
   .blurb{font-size:13.5px;color:#43403a;margin:0}
   .kid{font-size:12.5px;color:#43403a;background:#f7f3ec;border-radius:8px;padding:7px 9px;margin:0}
@@ -142,7 +143,7 @@
   <h1>Copenhagen with Saya &amp; Enzo</h1>
   <p class="sub">Family guide + map · July 19 – August 8, 2026 · ages 5 (princess phase) and 3 (animals + dinosaurs)</p>
   <div class="bases">
-    <span class="base-chip tentative">★ <b>Base (tentative):</b> Carlsberg City, not yet booked</span>
+    <span class="base-chip">★ <b>Base (exchange #1):</b> Ydre Nørrebro, by Nørrebro Station</span>
     <span class="base-chip">Crew: Kai, Satoko, Saya, Enzo + au pair</span>
     <span class="base-chip">Most spots reachable by metro or e-cargo bike</span>
   </div>
@@ -230,7 +231,7 @@
       <h2>Getting around &amp; finding more</h2>
       <ul>
         <li><b>Metro:</b> fast, driverless, runs all night. Easiest with two little ones plus a stroller.</li>
-        <li><b>E-cargo bike:</b> rent one for the stay to reach playgrounds, Reffen, and the Lakes with kids up front.</li>
+        <li><b>Cargo bike:</b> no rental needed at base 1: the hosts leave their Babboe (seats up to 4 kids) in the yard with keys. Heaviest kid on the bench closest to the driver, and always use both locks. Donkey Republic e-bikes fill any gaps.</li>
         <li><b>Playground finder:</b> <a href="https://legeplads.kk.dk/" target="_blank" rel="noopener">legeplads.kk.dk</a> maps every city playground.</li>
         <li><b>Kids' events:</b> <a href="https://bornibyen.dk/koebenhavn" target="_blank" rel="noopener">bornibyen.dk/koebenhavn</a> (use Google Translate) lists what's on near your dates.</li>
       </ul>
@@ -261,19 +262,19 @@
 </div>
 
 <footer>
-  Built for the Lukoff crew, June 2026. Private host details, addresses, and home-exchange logistics are kept in a separate crew-only file, not on this page. Verify hours and any summer renovation closures on each venue's site before you go. Sources: Sarah Kramer (local friend), Visit Copenhagen, VisitDenmark, and venue sites.
+  Built for the Lukoff crew, June 2026. Private host details, addresses, and home-exchange logistics are kept in a separate crew-only file, not on this page. Verify hours and any summer renovation closures on each venue's site before you go. Sources: Sarah Kramer (local friend), Emma &amp; Christian (our Nørrebro exchange hosts), Visit Copenhagen, VisitDenmark, and venue sites.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
 /* ====================== CONFIG ====================== */
-// Update this single block once the home exchange is locked.
+// Base #1 (booked). Kept at neighborhood level on purpose: the exact address lives in the crew-only file.
 const HOME_BASE = {
-  name:"Tentative base · Carlsberg City",
-  area:"Carlsberg Byen (Vesterbro / Frederiksberg border)",
-  lat:55.6655, lng:12.5360,
-  status:"Front-runner home exchange · not yet booked",
-  note:"Quiet new-build district in the old Carlsberg brewery grounds: playgrounds, car-light streets, ~10 min bike to Tivoli. Swap in the real address and neighborhood here once the exchange is confirmed."
+  name:"Base · Ydre Nørrebro",
+  area:"Ydre Nørrebro, by Nørrebro Station",
+  lat:55.7006, lng:12.5378,
+  status:"Home exchange #1 · booked",
+  note:"First exchange apartment by Nørrebro Station. Metro Circle Line, S-train, and buses at the door; Superkilen, Mimersparken, and Nørrebroparken are the local playgrounds, and the hosts leave their Babboe cargo bike in the yard."
 };
 
 const CAT = {
@@ -415,6 +416,10 @@ const PLACES = [
    site:"https://bibliotek.kk.dk/", price:"Free",
    blurb:"The children's floor is a bright indoor playroom with books, toys, games, and creative stations. Free, comfortable, and a perfect escape on a rainy or hot day.",
    kid:"<b>For both:</b> a free, calm reset in the middle of town."},
+  {cat:"museum", pri:"high", host:true, name:"Arbejdermuseet (Workers Museum)", area:"Indre By · Rømersgade", lat:55.6848, lng:12.5704,
+   site:"https://www.arbejdermuseet.dk/en/", price:"~135 DKK · under 18 free", img:W+"Arbejdermuseet_Copenhagen_courtyard.jpg?width=800",
+   blurb:"The 'good old days' of working-class Denmark during industrialisation, told through recreated homes and shops. Costumes and role-play areas are built in for kids, and under-18s enter free.",
+   kid:"<b>For both:</b> dress-up and play zones inside the exhibits. Strong rainy-day pick."},
 
   /* ---- PLAYGROUNDS, PARKS & BEACHES ---- */
   {cat:"play", pri:"high", name:"Tower Playground (Tårnlegepladsen), Fælledparken", area:"Østerbro · free", lat:55.7008, lng:12.5710,
@@ -446,6 +451,36 @@ const PLACES = [
    blurb:"Romantic free gardens of canals, lawns, and herons, right beside the Zoo (you can spot elephants from the park). Rowboats in summer and big open space.",
    kid:"<b>For both:</b> easy repeat visits; pair with the Zoo for a full day."},
 
+  /* ---- host tips (Nørrebro exchange) ---- */
+  {cat:"play", pri:"must", host:true, name:"Superkilen (Red Square + Black Square)", area:"Nørrebro · at base 1 · free", lat:55.6997, lng:12.5424,
+   price:"Free", img:W+"Copenhagen%20is%20my%20favourite%20place.%20This%20is%20N%C3%B8rrebro%20and%20Superkilen%20%28explore%29%20-%20Flickr%20-%20Maria%20Eklind.jpg?width=800",
+   blurb:"Bjarke Ingels' mile-long urban park on the doorstep. The Red Square has swings for the whole family and an elephant slide; the Black Square adds Moroccan fountains, Iraqi swings, a Japanese octopus slide, grills, and chess tables, plus a library cafe with a great kids' section.",
+   kid:"<b>For both:</b> elephant and octopus slides. Locals hang out in the swings on summer evenings."},
+  {cat:"play", pri:"high", host:true, name:"Nørrebroparken", area:"Nørrebro · free", lat:55.6955, lng:12.5419,
+   price:"Free", img:W+"K%C3%B8benhavn_-_N%C3%B8rrebroparken_%2822820624858%29.jpg?width=800",
+   blurb:"The hosts' kids-favorite: a staffed playground that lends out balls, hockey sticks, and jump ropes, plus a wading pool that opens on 23°C+ days (check its Facebook page). Stefanos pizza and Coffee Collective sit alongside.",
+   kid:"<b>Wading-pool days</b> turn this into a full afternoon."},
+  {cat:"play", pri:"high", host:true, name:"Mimersparken", area:"Nørrebro · by Nørrebro Station · free", lat:55.7047, lng:12.5409,
+   price:"Free", img:W+"Mimersparken_%28N%C3%B8rrebro%29.JPG?width=800",
+   blurb:"The closest park to base 1: zip line, small trampoline, sand cage, football courts with multiple goal sizes, and skate ramps. The staffed activity house is being renovated.",
+   kid:"<b>The burn-energy-now option,</b> five minutes from home."},
+  {cat:"play", pri:"high", host:true, name:"Hans Tavsens Park", area:"Nørrebro · by Assistens · free", lat:55.6891, lng:12.5476,
+   price:"Free", img:W+"Artemisspringvandet.jpg?width=800",
+   blurb:"Bigger and calmer than Nørrebroparken, with afternoon sun, a staffed playground that runs kids' activity days, basketball and fast-football courts, and a well-worn mini golf course. The hosts' pick for a family barbecue.",
+   kid:"<b>Staffed playground</b> plus mini golf; bring grill food."},
+  {cat:"play", pri:"option", host:true, name:"Assistens Kirkegård", area:"Nørrebro · free", lat:55.6909, lng:12.5494,
+   price:"Free", img:W+"Assistens_Kirkeg%C3%A5rd_1.jpg?width=800",
+   blurb:"The historic cemetery-park where H.C. Andersen rests. Locals stroll and picnic under the poplar avenues; it works as a calm green escape in the middle of Nørrebro.",
+   kid:"<b>For Saya:</b> the real H.C. Andersen, teller of mermaid tales."},
+  {cat:"play", pri:"high", host:true, name:"Botanisk Have (Botanical Garden)", area:"Nørreport · garden free", lat:55.6869, lng:12.5740,
+   price:"Garden free · greenhouse paid", img:W+"2023-04-19_Palm_House_Copenhagen_01.jpg?width=800",
+   blurb:"Peaceful garden in the city center: the Palm House, a large butterfly house, and lots of hidden corners to explore. The hosts' pick when you're mid-city and need a break.",
+   kid:"<b>For both:</b> butterflies plus hide-and-seek corners; pairs with the Natural History Museum."},
+  {cat:"play", pri:"option", host:true, name:"Konditaget Lüders (rooftop playground)", area:"Nordhavn · free", lat:55.7077, lng:12.5979,
+   price:"Free", img:W+"Konditaget_L%C3%BCders.jpg?width=800",
+   blurb:"A playground-gym on the roof of a Nordhavn parking house, with red rubber hills and views across the city and the Øresund. The sporty run the stairs; everyone else takes the elevator.",
+   kid:"<b>For both:</b> a playground with a skyline. Combine with a harbor-front stroll."},
+
   /* ---- DAY TRIPS ---- */
   {cat:"trip", pri:"high", name:"Louisiana Museum of Modern Art", area:"Humlebæk · ~36 min train", lat:55.9696, lng:12.5429,
    site:"https://louisiana.dk/en/", price:"~145 DKK · under 18 free", img:W+"Outside_Louisiana_Museum_of_Modern_Art.jpg?width=800",
@@ -464,8 +499,13 @@ const PLACES = [
    ages:"All ages", duration:"Half to full day"},
   {cat:"trip", pri:"option", name:"Bellevue Beach", area:"Klampenborg · ~20 min S-train", lat:55.7660, lng:12.5920,
    price:"Free",
-   blurb:"Copenhagen's prettiest beach: white sand, Blue Flag water, and Arne Jacobsen's iconic lifeguard towers. Shallow water, great for toddlers. Combine with Bakken and Dyrehaven.",
+   blurb:"Copenhagen's prettiest beach: white sand, Blue Flag water, and Arne Jacobsen's iconic lifeguard towers. Shallow water, great for toddlers. Combine with Bakken and Dyrehaven. Our Nørrebro hosts find it more see-and-be-seen than relaxed and prefer Charlottenlund, one stop south.",
    kid:"<b>For both:</b> stack it with the deer park for one big northern day.",
+   ages:"All ages", duration:"Half day"},
+  {cat:"trip", pri:"high", host:true, name:"Charlottenlund Strand", area:"Charlottenlund · S-train + 1 km walk", lat:55.7466, lng:12.5889,
+   price:"Free", img:W+"Charlottenlund_Strandpark_-_panorama.jpg?width=800",
+   blurb:"The hosts' favorite beach: big lawns for games, a small sandy strip, and room to barbecue, all very family friendly. Take the S-train toward Klampenborg or line C to Charlottenlund, then a lovely 1 km walk through the forest (drive if you're hauling beach gear).",
+   kid:"<b>For both:</b> lawn games plus gentle sand, calmer than Bellevue.",
    ages:"All ages", duration:"Half day"},
   {cat:"trip", pri:"high", name:"Viking Ship Museum", area:"Roskilde · ~25 min train west", lat:55.6510, lng:12.0800,
    site:"https://www.vikingeskibsmuseet.dk/en", price:"~160 DKK · under 18 free",
@@ -545,7 +585,41 @@ const PLACES = [
    kid:"<b>Quick stop</b> on a morning bike ride."},
   {cat:"eat", etype:"Veg cafe", name:"Morgenstedet", area:"Christiania", lat:55.6710, lng:12.5930, price:"💰",
    blurb:"A vegetarian cafe inside Christiania, running 20+ years. Warm, earthy, with high chairs and changing tables. An adventurous lunch stop.",
-   kid:"<b>Child-friendly food,</b> high chairs and changing tables."}
+   kid:"<b>Child-friendly food,</b> high chairs and changing tables."},
+
+  /* ---- host tips (Nørrebro exchange) ---- */
+  {cat:"eat", etype:"Danish classics", host:true, name:"Familiehaver on Pile Allé", area:"Frederiksberg · by the Zoo", lat:55.6726, lng:12.5314, price:"💰💰",
+   img:W+"M._G._Petersens_Gamle_Familiehave_%282009%29.jpg?width=800",
+   blurb:"Three old-school garden restaurants in a row (M.G. Petersen, Krøgers, Hansens Gamle) serving Danish food 'like in the good old days' in leafy courtyards. The hosts' pick for traditional cooking.",
+   kid:"<b>The natural Zoo-day lunch:</b> kids roam the gravel courtyards while the smørrebrød lands."},
+  {cat:"eat", etype:"Board-game cafe", host:true, name:"Bastard Café", area:"Nørrebro · by Nørrebro Station", lat:55.7025, lng:12.5402, price:"💰",
+   site:"https://bastardcafe.dk/", img:W+"Copenhague_-_Bastard_Cafe_%2853714126261%29.jpg?width=800",
+   blurb:"The hosts' new local favorite: a cafe built around a huge board-game library, with drinks and snacks while you play. Games for every age on the shelves.",
+   kid:"<b>Rainy-afternoon rescue:</b> memory and snakes-and-ladders for the kids, something longer for you."},
+  {cat:"eat", etype:"Brunch", host:true, name:"Wulff & Konstali", area:"Sankt Hans Torv · Nørrebro", lat:55.6908, lng:12.5606, price:"💰💰",
+   img:W+"Sankt_Hans_Torv_scene.jpg?width=800", imgtag:"Sankt Hans Torv",
+   blurb:"Good brunches from 8:00 to 15:00 on Sankt Hans Torv. Sit outside and let the kids orbit the fountain; the square is ringed with cafes if it's full.",
+   kid:"<b>Kids play around the fountain</b> while the coffee does its work."},
+  {cat:"eat", etype:"Pizza", host:true, name:"Pizzeria Cavallino", area:"Mimersgade · Nørrebro", lat:55.7008, lng:12.5414, price:"💰💰",
+   img:W+"Margherita_Originale.JPG?width=800", imgtag:"Pizza",
+   blurb:"The hosts' favorite pizza, literally around the corner from base 1. The default easy dinner after a playground afternoon.",
+   kid:"<b>Pizza night,</b> two minutes from home."},
+  {cat:"eat", etype:"Thai takeaway", host:true, name:"MaePen Thai", area:"Gormsgade · Nørrebro", lat:55.6968, lng:12.5456, price:"💰",
+   img:W+"Thai_green_chicken_curry_and_roti.jpg?width=800", imgtag:"Thai",
+   blurb:"The hosts' favorite Thai in the area. Takeaway only with no seating, so carry it to Nørrebroparken or Superkilen for a picnic dinner.",
+   kid:"<b>Picnic-dinner move:</b> curry in the park while the kids run."},
+  {cat:"eat", etype:"Burgers", host:true, name:"Jagger", area:"Nørrebrogade", lat:55.6937, lng:12.5501, price:"💰💰",
+   img:W+"Cheeseburger_and_fries_4.jpg?width=800", imgtag:"Burgers",
+   blurb:"Retro-styled burgers, fries, and shakes a short walk down Nørrebrogade. The hosts' burger pick for the neighborhood.",
+   kid:"<b>Burger-and-shake night:</b> an easy yes from everyone."},
+  {cat:"eat", etype:"Bakery", host:true, name:"Bageriet B", area:"Skjolds Plads · Nørrebro", lat:55.7035, lng:12.5488, price:"💰",
+   img:W+"Cinnamon_bun_-_Black_Mocha_2024-01-08.jpg?width=800", imgtag:"Bakery",
+   blurb:"The hosts' verdict: the best bakery in the area (they were loyal to Meyers until this opened). A 5-minute bike from base 1 for the morning pastry run.",
+   kid:"<b>Morning ritual:</b> kanelsnegle before the playground."},
+  {cat:"eat", etype:"Cakes", host:true, name:"Conditori La Glace", area:"Indre By · since 1870", lat:55.6786, lng:12.5736, price:"💰💰",
+   site:"https://laglace.dk/en/", img:W+"Conditori_La_Glace.jpg?width=800",
+   blurb:"A Copenhagen classic operating since 1870, and per the hosts simply 'the place for cakes'. Layer cakes and hot chocolate in a room that hasn't changed in a century.",
+   kid:"<b>For both:</b> a proper cake reward mid-sightseeing. Also a strong 40th-birthday-cake candidate."}
 ];
 
 /* personal pins, public-safe (first name + neighborhood only; details live in the crew-only file) */
@@ -651,6 +725,7 @@ function toggleMarker(m,show){ if(show){ if(!map.hasLayer(m)) m.addTo(map);} els
 function badges(p){
   let h='';
   if(p.onlist) h+='<span class="badge b-list">★ shortlist</span>';
+  if(p.host) h+='<span class="badge b-host">Host tip</span>';
   if(p.cat==='eat'){ if(p.etype) h+='<span class="badge b-eat">'+p.etype+'</span>'; if(p.price) h+='<span class="chip">'+p.price+'</span>'; }
   else if(PRI[p.pri]) h+='<span class="badge '+PRI[p.pri][1]+'">'+PRI[p.pri][0]+'</span>';
   h+='<span class="chip">'+p.area+'</span>';
