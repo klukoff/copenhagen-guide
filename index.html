@@ -156,7 +156,8 @@
   <h1>Copenhagen with Saya &amp; Enzo</h1>
   <p class="sub">Family guide + map · July 19 – August 9, 2026 · ages 5 (princess phase) and 3 (animals + dinosaurs)</p>
   <div class="bases">
-    <span class="base-chip">★ <b>Base (exchange #1):</b> Ydre Nørrebro, by Nørrebro Station</span>
+    <span class="base-chip">★ <b>Base 1 (to Jul 26):</b> Ydre Nørrebro, by Nørrebro Station</span>
+    <span class="base-chip">★ <b>Base 2 (from Jul 26):</b> by the Central Station</span>
     <span class="base-chip">Crew: Kai, Satoko, Saya, Enzo + au pair</span>
     <span class="base-chip">Most spots reachable by metro or e-cargo bike</span>
   </div>
@@ -252,7 +253,7 @@
       <h2>Getting around &amp; finding more</h2>
       <ul>
         <li><b>Metro:</b> fast, driverless, runs all night. Easiest with two little ones plus a stroller.</li>
-        <li><b>Cargo bike:</b> no rental needed at base 1: the hosts leave their Babboe (seats up to 4 kids) in the yard with keys. Heaviest kid on the bench closest to the driver, and always use both locks. Donkey Republic e-bikes fill any gaps.</li>
+        <li><b>Cargo bike:</b> the hosts' Babboe (seats up to 4 kids) lives in the base 1 yard through Jul 26; heaviest kid closest to the driver, always both locks. From base 2, Donkey Republic e-bikes and the metro take over.</li>
         <li><b>Playground finder:</b> <a href="https://legeplads.kk.dk/" target="_blank" rel="noopener">legeplads.kk.dk</a> maps every city playground.</li>
         <li><b>Kids' events:</b> <a href="https://bornibyen.dk/koebenhavn" target="_blank" rel="noopener">bornibyen.dk/koebenhavn</a> (use Google Translate) lists what's on near your dates.</li>
       </ul>
@@ -289,13 +290,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
 /* ====================== CONFIG ====================== */
-// Base #1 (booked). Kept at neighborhood level on purpose: the exact address lives in the crew-only file.
+// Both bases kept at neighborhood level on purpose: exact addresses live in the crew-only file.
 const HOME_BASE = {
-  name:"Base · Ydre Nørrebro",
-  area:"Ydre Nørrebro, by Nørrebro Station",
+  name:"Base 1 · Ydre Nørrebro",
+  area:"Ydre Nørrebro, by Nørrebro Station · Jul 19–26",
   lat:55.7006, lng:12.5378,
-  status:"Home exchange #1 · booked",
-  note:"First exchange apartment by Nørrebro Station. Metro Circle Line, S-train, and buses at the door; Superkilen, Mimersparken, and Nørrebroparken are the local playgrounds, and the hosts leave their Babboe cargo bike in the yard."
+  status:"Home exchange #1 · until Jul 26",
+  note:"First exchange apartment by Nørrebro Station. Metro Circle Line, S-train, and buses at the door; Superkilen, Mimersparken, and Nørrebroparken are the local playgrounds, and the hosts' Babboe cargo bike lives in the yard. Out by 10:00 on Sun Jul 26 for the cleaner."
+};
+const HOME_BASE2 = {
+  name:"Base 2 · by the Central Station",
+  area:"Next to København H · Jul 26 – Aug 9",
+  lat:55.6726, lng:12.5643,
+  status:"Home exchange #2 · from Jul 26",
+  note:"Second exchange apartment by the Central Station. Tivoli is two minutes away, DAC and the harbour bath ten; every S-train, the airport train, and Kai's Hanover train leave from the doorstep. Local playground: Skydebanehaven's parrot slide."
 };
 
 const CAT = {
@@ -647,6 +655,8 @@ const PLACES = [
 const PERSONAL = [
   {type:"base", name:HOME_BASE.name, area:HOME_BASE.area, lat:HOME_BASE.lat, lng:HOME_BASE.lng,
    tag:HOME_BASE.status, blurb:HOME_BASE.note},
+  {type:"base", name:HOME_BASE2.name, area:HOME_BASE2.area, lat:HOME_BASE2.lat, lng:HOME_BASE2.lng,
+   tag:HOME_BASE2.status, blurb:HOME_BASE2.note},
   {type:"me", name:"Tobias & family", area:"Hellerup", lat:55.7280, lng:12.5840,
    blurb:"Cousin Tobias and his two boys, in the coastal suburb of Hellerup on the Øresund. Great for playdates, and close to Experimentarium, Bellevue, Bakken, and Dyrehaven. ~20 min bike from Østerbro."},
   {type:"me", name:"UCPH colleagues", area:"Nørrebro", lat:55.7065, lng:12.5480,
@@ -703,7 +713,7 @@ map.on('zoomend', updateLabels);
 
 // fit to in-city points (exclude far day trips so it doesn't zoom way out)
 const fitPts = PLACES.filter(p=>p.cat!=='trip').map(p=>[p.lat,p.lng])
-  .concat(NEIGHBORHOODS.map(n=>n.center)).concat([[HOME_BASE.lat,HOME_BASE.lng]]);
+  .concat(NEIGHBORHOODS.map(n=>n.center)).concat([[HOME_BASE.lat,HOME_BASE.lng],[HOME_BASE2.lat,HOME_BASE2.lng]]);
 function fitAll(){ map.invalidateSize(); if(fitPts.length) map.fitBounds(fitPts,{padding:[30,30],maxZoom:14}); updateLabels(); }
 fitAll();
 setTimeout(fitAll, 300);
@@ -978,17 +988,18 @@ const ITIN = [
   m:"Bondegården farm playground on Amager: ponies, goats, and the dragon-slide castle next door.",
   a:"Quiet block, then the Mimersparken zip line to empty the tank.",
   e:"Jagger burgers-and-shakes night."},
- {dow:"Sun", d:"Jul 26", wknd:true,
-  m:"Nationalmuseet children's wing (free): the climb-in castle for Saya, the Viking ship for Enzo.",
-  a:"Botanisk Have butterflies and Palm House, or the harbour bath if it's hot.",
-  e:"Hooked fish and chips."},
+ {dow:"Sun", d:"Jul 26", wknd:true, who:["🏠 Moving day: base 1 → base 2"],
+  fixed:["🔒 Out of the Nørrebro flat by 10:00 (the cleaner comes), then to the new exchange by the Central Station."],
+  m:"Pack, a last Superkilen goodbye, bags out by 10:00. Taxi or metro across town with the luggage.",
+  a:"Settle into base 2. If energy allows, Nationalmuseet's children's wing is a five-minute walk.",
+  e:"First Vesterbro dinner: Hooked's city-center fish and chips, or Mangia pasta."},
  {dow:"Mon", d:"Jul 27", who:["✈️ Satoko back from Stockholm"],
-  fixed:["🔒 Evening: Kai + kids at dinner with Ulrich and a colleague, at their home."],
-  m:"Keep it light and local: playground loop plus Bastard Café board games.",
+  fixed:["🔒 Evening: Kai + kids at dinner with Ulrik and a colleague, at their home."],
+  m:"Keep it light and local to the new base: Skydebanehaven's parrot slide plus a Hart Bageri run.",
   a:"Meet Satoko, naps, slow afternoon together.",
   e:"Satoko's recovery evening at home; grandparents' choice nearby."},
  {dow:"Tue", d:"Jul 28",
-  fixed:["🔒 Evening: Absalon community dinner in Vesterbro · Kai, Ulrich, and the grandparents (buy seats ahead)."],
+  fixed:["🔒 Evening: Absalon community dinner, a short walk from base 2 · Kai, Ulrik, and the grandparents (buy seats ahead)."],
   m:"DAC / BLOX: the three-story slide, the kids' craft area, waterfront lunch.",
   a:"Islands Brygge harbour bath splash in the fenced kids' pool.",
   e:"Dinner party to Absalon; Satoko and the kids have a home night."},
@@ -1004,7 +1015,7 @@ const ITIN = [
   e:"Easy dinner at home."},
  {dow:"Fri", d:"Jul 31",
   m:"Slow morning: Nørrebroparken, wading pool if it's 23°C or better.",
-  a:"Tivoli from late afternoon: gardens, peacocks, and the Flying Trunk.",
+  a:"Tivoli from late afternoon, two minutes from base 2: gardens, peacocks, and the Flying Trunk.",
   e:"Fredagsrock concert and the evening lights. The grandparents will melt."},
  {dow:"Sat", d:"Aug 1", wknd:true,
   m:"Frilandsmuseet: costumed role-players and weekend activities, free entry.",
@@ -1014,37 +1025,37 @@ const ITIN = [
   m:"Charlottenlund Strand, the hosts' favorite beach: lawns plus gentle sand.",
   a:"Forest walk back to the S-train; naps.",
   e:"Familiehave dinner on Pile Allé while Kai packs for Hanover."},
- {dow:"Mon", d:"Aug 3", who:["✈️ Kai → Hanover (back Thu 6)"],
-  m:"Children's Traffic Playground in Fælledparken: mini bikes and real traffic lights.",
-  a:"Tower Playground next door; borrow balls at the staffed house.",
+ {dow:"Mon", d:"Aug 3", who:["🚂 Kai → Hanover · ECE 397 from København H at 14:04 (via Hamburg, arrives 21:09)"],
+  m:"Family morning close to base 2, early lunch together, then Kai walks to the station for the 14:04.",
+  a:"Satoko + kids + grandparents: naps, then the Skydebanehaven parrot slide.",
   e:"Home night."},
  {dow:"Tue", d:"Aug 4",
-  m:"Experimentarium: Miniverse is built for exactly ages 1–5.",
-  a:"S-train home; quiet afternoon.",
-  e:"The Laundromat Café: play corner plus an easy dinner."},
+  m:"Experimentarium: Miniverse is built for exactly ages 1–5. Direct S-train from København H.",
+  a:"Kongens Have dragon playground on the way home, if legs remain.",
+  e:"Mangia pasta night near the station."},
  {dow:"Wed", d:"Aug 5",
-  m:"Kongens Have dragon playground and the Rosenborg lawns.",
+  m:"Children's Traffic Playground + Tower Playground in Fælledparken (metro toward Trianglen).",
   a:"Copenhagen Main Library kids' floor if the weather turns.",
   e:"GRØD porridge dinner, toddler heaven."},
- {dow:"Thu", d:"Aug 6", who:["✈️ Kai back from Hanover (evening)"],
-  m:"Local favorites: Superkilen, then a Bageriet B run.",
+ {dow:"Thu", d:"Aug 6", who:["🚂 Kai back from Hanover · arrives København H 18:02"],
+  m:"Vesterbro morning: Værnedamsvej stroll and a Hart Bageri run.",
   a:"La Glace cake outing with the grandparents.",
-  e:"Welcome-back dinner at home."},
+  e:"Welcome-back dinner at home; Kai steps off the train two minutes away."},
  {dow:"Fri", d:"Aug 7",
-  fixed:["🔒 Evening: Barbara &amp; Morten + Tobias &amp; his kids · event or dinner, venue TBD."],
+  fixed:["🔒 Evening: Barbara &amp; Morten + Tobias &amp; his kids · event or dinner, venue TBD. Also the grandparents' send-off evening."],
   m:"Recovery morning; harbour bath if it's warm.",
   a:"Naps and a head start on packing.",
   e:"Group suggestion: Reffen street food (sand pit + something for every eater), or book Absalon again."},
- {dow:"Sat", d:"Aug 8", wknd:true,
+ {dow:"Sat", d:"Aug 8", wknd:true, who:["👋 Grandparents fly home in the morning"],
   fixed:["🔒 Likely: second meetup with Barbara, Morten, and Tobias's crew · plan TBD."],
-  m:"Group suggestion: Dyrehaven deer and Bakken rides, Tobias's home turf.",
-  a:"Soft ice at Bakken, then the S-train home.",
+  m:"See the grandparents off, then the group suggestion: Dyrehaven deer and Bakken rides, Tobias's home turf.",
+  a:"Soft ice at Bakken, then the S-train home. Evening packing starts.",
   e:"Last-night dinner: Cofoco's set menu."},
  {dow:"Sun", d:"Aug 9", wknd:true, who:["✈️ Departure day"],
-  m:"Pack up, one last pastry run, host handover per the exchange checklist.",
-  a:"Metro or train to the airport (kids under 12 ride free with adults).",
-  e:"Farvel, København 🇩🇰",
-  book:"Confirm the flight time and pad the buffer."}
+  fixed:["🔒 Delta 219 to New York-JFK departs 09:00 · connection Delta 365 lands San Francisco 20:03."],
+  m:"Up early: out the door by ~6:15, airport train from København H (13 min), at CPH by ~6:45.",
+  a:"JFK layover 11:25–16:29, long enough for a real lunch.",
+  e:"Home to San Jose. Farvel, København 🇩🇰"}
 ];
 
 const daysList=document.getElementById('days-list');
