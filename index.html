@@ -116,6 +116,19 @@
   .bland{background:#1e8f4e;color:#fff;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
   @media (max-width:760px){ .bday-grid{grid-template-columns:1fr} #bmap{height:340px} }
 
+  /* day-by-day itinerary */
+  .day{display:grid;grid-template-columns:118px 1fr;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 10px}
+  .day.wknd{background:#fdfaf1}
+  .day .dt .dow{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .day .dt .dnum{font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .who-chip{display:inline-block;background:#eef3fb;color:#2b5797;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;margin:0 6px 6px 0}
+  .fixed-line{background:#fbe4df;border-radius:8px;padding:6px 10px;font-size:13px;margin:0 0 6px;color:#7c2d1c}
+  .sugg-line{background:#fbeec3;border-radius:8px;padding:6px 10px;font-size:13px;margin:0 0 6px;color:#6d5510}
+  .slot{display:flex;gap:9px;font-size:13.5px;line-height:1.45;margin:2px 0}
+  .slot .lbl{flex:0 0 74px;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+  .book-line{color:#a96a10;font-size:12.5px;margin-top:5px}
+  @media (max-width:640px){ .day{grid-template-columns:1fr;gap:6px} .day .dt{display:flex;gap:8px;align-items:baseline} }
+
   .note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:16px 0;font-size:14px}
   .note h2{margin:0 0 8px;font-size:16px;color:var(--red)}
   .note ul{margin:6px 0 0;padding-left:18px}
@@ -141,7 +154,7 @@
 <body>
 <header>
   <h1>Copenhagen with Saya &amp; Enzo</h1>
-  <p class="sub">Family guide + map · July 19 – August 8, 2026 · ages 5 (princess phase) and 3 (animals + dinosaurs)</p>
+  <p class="sub">Family guide + map · July 19 – August 9, 2026 · ages 5 (princess phase) and 3 (animals + dinosaurs)</p>
   <div class="bases">
     <span class="base-chip">★ <b>Base (exchange #1):</b> Ydre Nørrebro, by Nørrebro Station</span>
     <span class="base-chip">Crew: Kai, Satoko, Saya, Enzo + au pair</span>
@@ -158,6 +171,7 @@
     <a href="#" onclick="goSection('trip','trips');return false">Day trips</a>
     <a href="#" onclick="goSection('eat','eat');return false">Eat</a>
     <a href="#" onclick="goSection('me','ours');return false">Our spots</a>
+    <a href="#days">📅 Day by day</a>
     <a href="#birthday">🎂 Birthday</a>
     <a href="#plan">Plan ahead</a>
   </div>
@@ -215,6 +229,13 @@
       </div>
     </div>
   </div>
+
+  <h2 class="section-head" id="days" style="margin-top:34px"><span class="swatch" style="background:#2b5797"></span>📅 Day by day · July 23 – August 9</h2>
+  <div class="note" style="margin-top:0">
+    <p style="margin:0 0 6px"><b>The rhythm:</b> one anchor a day, quiet time roughly 13:00–15:00, evenings local. 🔒 lines are locked plans; everything else is swappable, and rainy-day swaps live in <a href="#" onclick="goSection('museum','museums');return false">Museums &amp; rainy-day</a>.</p>
+    <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Zoo panda-window table (Fri 24 lunch) · GoBoat morning slot + picnic basket for Wed 29 (basket needs 24h notice) · Absalon seats for Tue 28 · Louisiana timed tickets for Thu 30 · Tivoli wristbands + Fredagsrock check for Fri 31.</p>
+  </div>
+  <div id="days-list"></div>
 
   <h2 class="section-head" id="plan" style="margin-top:34px">Plan ahead &amp; logistics</h2>
   <div class="plan-grid">
@@ -937,6 +958,110 @@ BLAND.forEach((s,i)=>{
   li.innerHTML='<span class="bnum land">'+s.icon+'</span><span><b>'+s.name+'</b> · '+s.note+'</span>';
   li.onclick=()=>bFocus('land',i);
   bLandList.appendChild(li);
+});
+
+/* ====================== DAY BY DAY (Jul 23 – Aug 9) ====================== */
+// who = travel/arrival chips · fixed = locked plans (🔒) · sugg = strong suggestions still open
+// m/a/e = morning / afternoon / evening · book = booking reminder for that day
+const ITIN = [
+ {dow:"Thu", d:"Jul 23", who:["👋 Kai's parents arrive"],
+  m:"Local start: Bageriet B pastries, then the Superkilen slides while the apartment gets grandparent-ready.",
+  a:"Naps and settling in. A gentle Assistens Kirkegård stroll if legs allow.",
+  e:"Pizzeria Cavallino, two minutes from home.",
+  book:"Do today: fire off the whole booking list above."},
+ {dow:"Fri", d:"Jul 24", who:["✈️ Satoko → Stockholm (back Mon 27)"],
+  m:"See Satoko off, then Zoo day: the panda-window lunch table, goat petting, themed playgrounds.",
+  a:"Frederiksberg Gardens next door, at grandparent pace (you can spot the elephants from the lawns).",
+  e:"Home night: MaePen Thai carried to the table.",
+  book:"If jet lag bites the grandparents, swap the Zoo with Saturday."},
+ {dow:"Sat", d:"Jul 25", wknd:true,
+  m:"Bondegården farm playground on Amager: ponies, goats, and the dragon-slide castle next door.",
+  a:"Quiet block, then the Mimersparken zip line to empty the tank.",
+  e:"Jagger burgers-and-shakes night."},
+ {dow:"Sun", d:"Jul 26", wknd:true,
+  m:"Nationalmuseet children's wing (free): the climb-in castle for Saya, the Viking ship for Enzo.",
+  a:"Botanisk Have butterflies and Palm House, or the harbour bath if it's hot.",
+  e:"Hooked fish and chips."},
+ {dow:"Mon", d:"Jul 27", who:["✈️ Satoko back from Stockholm"],
+  fixed:["🔒 Evening: Kai + kids at dinner with Ulrich and a colleague, at their home."],
+  m:"Keep it light and local: playground loop plus Bastard Café board games.",
+  a:"Meet Satoko, naps, slow afternoon together.",
+  e:"Satoko's recovery evening at home; grandparents' choice nearby."},
+ {dow:"Tue", d:"Jul 28",
+  fixed:["🔒 Evening: Absalon community dinner in Vesterbro · Kai, Ulrich, and the grandparents (buy seats ahead)."],
+  m:"DAC / BLOX: the three-story slide, the kids' craft area, waterfront lunch.",
+  a:"Islands Brygge harbour bath splash in the fenced kids' pool.",
+  e:"Dinner party to Absalon; Satoko and the kids have a home night."},
+ {dow:"Wed", d:"Jul 29",
+  sugg:["🎂 Suggested: the GoBoat birthday cruise, 9:30 slot · three generations, one boat (<a href='#birthday'>the birthday plan</a>)."],
+  m:"Harbor loop with picnic aboard and the Broens ice-cream landing.",
+  a:"Heroes' naps all around.",
+  e:"La Glace layer cake at home, or save the cake for the actual birthday date.",
+  book:"Picnic basket must be ordered 24h ahead, so by Tuesday."},
+ {dow:"Thu", d:"Jul 30",
+  m:"Louisiana day trip: timed morning tickets, the kids' wing, sculpture garden above the sea.",
+  a:"Lunch there with the Øresund view, then the train home for naps.",
+  e:"Easy dinner at home."},
+ {dow:"Fri", d:"Jul 31",
+  m:"Slow morning: Nørrebroparken, wading pool if it's 23°C or better.",
+  a:"Tivoli from late afternoon: gardens, peacocks, and the Flying Trunk.",
+  e:"Fredagsrock concert and the evening lights. The grandparents will melt."},
+ {dow:"Sat", d:"Aug 1", wknd:true,
+  m:"Frilandsmuseet: costumed role-players and weekend activities, free entry.",
+  a:"Picnic on the museum farm grounds.",
+  e:"Sticks'n'Sushi kids'-bento night."},
+ {dow:"Sun", d:"Aug 2", wknd:true,
+  m:"Charlottenlund Strand, the hosts' favorite beach: lawns plus gentle sand.",
+  a:"Forest walk back to the S-train; naps.",
+  e:"Familiehave dinner on Pile Allé while Kai packs for Hanover."},
+ {dow:"Mon", d:"Aug 3", who:["✈️ Kai → Hanover (back Thu 6)"],
+  m:"Children's Traffic Playground in Fælledparken: mini bikes and real traffic lights.",
+  a:"Tower Playground next door; borrow balls at the staffed house.",
+  e:"Home night."},
+ {dow:"Tue", d:"Aug 4",
+  m:"Experimentarium: Miniverse is built for exactly ages 1–5.",
+  a:"S-train home; quiet afternoon.",
+  e:"The Laundromat Café: play corner plus an easy dinner."},
+ {dow:"Wed", d:"Aug 5",
+  m:"Kongens Have dragon playground and the Rosenborg lawns.",
+  a:"Copenhagen Main Library kids' floor if the weather turns.",
+  e:"GRØD porridge dinner, toddler heaven."},
+ {dow:"Thu", d:"Aug 6", who:["✈️ Kai back from Hanover (evening)"],
+  m:"Local favorites: Superkilen, then a Bageriet B run.",
+  a:"La Glace cake outing with the grandparents.",
+  e:"Welcome-back dinner at home."},
+ {dow:"Fri", d:"Aug 7",
+  fixed:["🔒 Evening: Barbara &amp; Morten + Tobias &amp; his kids · event or dinner, venue TBD."],
+  m:"Recovery morning; harbour bath if it's warm.",
+  a:"Naps and a head start on packing.",
+  e:"Group suggestion: Reffen street food (sand pit + something for every eater), or book Absalon again."},
+ {dow:"Sat", d:"Aug 8", wknd:true,
+  fixed:["🔒 Likely: second meetup with Barbara, Morten, and Tobias's crew · plan TBD."],
+  m:"Group suggestion: Dyrehaven deer and Bakken rides, Tobias's home turf.",
+  a:"Soft ice at Bakken, then the S-train home.",
+  e:"Last-night dinner: Cofoco's set menu."},
+ {dow:"Sun", d:"Aug 9", wknd:true, who:["✈️ Departure day"],
+  m:"Pack up, one last pastry run, host handover per the exchange checklist.",
+  a:"Metro or train to the airport (kids under 12 ride free with adults).",
+  e:"Farvel, København 🇩🇰",
+  book:"Confirm the flight time and pad the buffer."}
+];
+
+const daysList=document.getElementById('days-list');
+ITIN.forEach(day=>{
+  const c=document.createElement('div');
+  c.className='day'+(day.wknd?' wknd':'');
+  let right='';
+  (day.who||[]).forEach(w=>{ right+='<span class="who-chip">'+w+'</span>'; });
+  if(day.who) right+='<div></div>';
+  (day.fixed||[]).forEach(f=>{ right+='<p class="fixed-line">'+f+'</p>'; });
+  (day.sugg||[]).forEach(s=>{ right+='<p class="sugg-line">'+s+'</p>'; });
+  [['Morning','m'],['Afternoon','a'],['Evening','e']].forEach(([lbl,k])=>{
+    if(day[k]) right+='<div class="slot"><span class="lbl">'+lbl+'</span><span>'+day[k]+'</span></div>';
+  });
+  if(day.book) right+='<p class="book-line">⚠️ '+day.book+'</p>';
+  c.innerHTML='<div class="dt"><div class="dow">'+day.dow+'</div><div class="dnum">'+day.d+'</div></div><div>'+right+'</div>';
+  daysList.appendChild(c);
 });
 </script>
 </body>
