@@ -127,6 +127,17 @@
   .slot{display:flex;gap:9px;font-size:13.5px;line-height:1.45;margin:2px 0}
   .slot .lbl{flex:0 0 74px;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
   .book-line{color:#a96a10;font-size:12.5px;margin-top:5px}
+  /* weather chips */
+  .wx{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px;font-size:12.5px;font-weight:600;color:var(--muted);background:#f4f1ea;border:1px solid var(--line);border-radius:8px;padding:3px 10px;margin:0 0 9px}
+  .wx .wx-ico{font-size:14px}
+  .wx .wx-desc{color:var(--ink)}
+  .wx .wx-hi{color:#c1442e;font-weight:800}
+  .wx .wx-lo{color:#2d6a7a;font-weight:800}
+  .wx .wx-f{opacity:.7;font-weight:600}
+  .wx .wx-pop{color:#2980b9;font-weight:700}
+  .wx.wx-empty{opacity:.55}
+  .wx .wx-dash{font-style:italic;opacity:.8}
+  .wx-note{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
   @media (max-width:640px){ .day{grid-template-columns:1fr;gap:6px} .day .dt{display:flex;gap:8px;align-items:baseline} }
 
   .note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:16px 0;font-size:14px}
@@ -237,13 +248,14 @@
     <p style="margin:0 0 6px"><b>The rhythm:</b> one anchor a day, quiet time roughly 13:00–15:00, evenings local. 🔒 lines are locked plans; everything else is swappable, and rainy-day swaps live in <a href="#" onclick="goSection('museum','museums');return false">Museums &amp; rainy-day</a>.</p>
     <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Zoo panda-window table (Fri 24 lunch) · Kronborg tickets + Absalon seats for Tue 28 · Tivoli ride wristbands for Wed 29 · GoBoat 9:30 slot for Thu 30, picnic basket ordered by Wed · Louisiana timed tickets for Fri 31.</p>
   </div>
+  <p class="wx-note" id="wx-updated"></p>
   <div id="days-list"></div>
 
   <h2 class="section-head" id="finedining" style="margin-top:34px"><span class="swatch" style="background:#c0392b"></span>🍽️ Date night · fine dining (Jul 29 – Aug 2)</h2>
   <div class="note" style="margin-top:0">
-    <p style="margin:0 0 6px">Just the two of us, no kids. I checked live availability on Friday Jul 24, so treat every time below as a snapshot and reconfirm when we book. Summer tables move fast.</p>
+    <p style="margin:0 0 6px">Just the two of us, no kids. I checked live availability on Friday Jul 24, so treat every time below as a snapshot and reconfirm when we book. Summer tables move fast. Prices are per person, food only (drinks extra), converted at about 6.5 DKK to the dollar, so read the USD as approximate.</p>
     <ul>
-      <li><b>Summer reality:</b> several of the icons close for Danish holiday across our dates. Geranium reopens Jul 29, AOC reopens Aug 4, Kong Hans Kælder and Noma reopen Aug 5, and Kadeau cooks at its Bornholm outpost. The four below are what is actually open and bookable for us.</li>
+      <li><b>Summer reality:</b> several of the icons close for Danish holiday across our dates. Geranium reopens Jul 29, AOC reopens Aug 4, Kong Hans Kælder and Noma reopen Aug 5, and Kadeau cooks at its Bornholm outpost. Everything below is open and bookable for us, from the three-star splurge to relaxed local rooms and seafood.</li>
       <li><b>On vouchers:</b> the Michelin-tier places do not take third-party discount vouchers, they use prepaid deposits. TheFork runs a summer discount (up to -50%), but it applies automatically at booking with nothing to buy afterward, and it covers casual and mid spots, many across the water in Malmö. For a real fine-dining night we should plan to pay full price.</li>
       <li><b>Book now, decide later:</b> Marchal and Cofoco book with no money down and cancel free a few hours ahead, so we can hold them and change our minds. Geranium takes a 1,500 DKK per-guest deposit we would lose, so we book it only when we are sure.</li>
     </ul>
@@ -260,6 +272,7 @@
         <span class="chip">💰💰💰💰</span>
       </div>
       <p class="blurb">The three-star icon, back from holiday on Jul 29. Lunch-only service now: one long seasonal tasting menu with harbor and city views.</p>
+      <p class="meta"><b>Price:</b> tasting menu about 4,200 DKK (about $645) per guest; wine pairing from about 2,300 DKK (about $355). The 1,500 DKK (about $230) deposit counts toward it.</p>
       <p style="margin:0;font-size:13px;background:#e8f5e9;color:#2e7d32;border-radius:8px;padding:7px 9px"><b>Open in our window:</b> Fri Jul 31, lunch only, at 12:00, 12:15, or 12:45. It is the only date they have for us before mid-August.</p>
       <p style="margin:0;font-size:13px;background:#fce4ec;color:#c62828;border-radius:8px;padding:7px 9px"><b>Deposit:</b> 1,500 DKK per guest, applied to the bill and effectively non-refundable. Book only when we are sure.</p>
       <div class="links">
@@ -277,6 +290,7 @@
         <span class="chip">💰💰💰</span>
       </div>
       <p class="blurb">Grand-hotel dining that stays open all summer. Lunch, dinner, and weekend brunch, indoors or on the courtyard terrace. The easy, flexible choice.</p>
+      <p class="meta"><b>Price:</b> à la carte, no tasting menu. Dinner runs about 700 to 1,000 DKK (about $110 to $155) per person before drinks; lunch and brunch cost less.</p>
       <p style="margin:0;font-size:13px;background:#e8f5e9;color:#2e7d32;border-radius:8px;padding:7px 9px"><b>Wide open across our window.</b> On Jul 29 alone, tables ran from 12:00 lunch to 20:30 dinner, terrace included. Weekend brunch on Aug 1 and 2.</p>
       <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>No deposit, free to cancel.</b> The easiest table to lock now and keep our options open.</p>
       <div class="links">
@@ -294,6 +308,7 @@
         <span class="chip">💰💰</span>
       </div>
       <p class="blurb">Relaxed, great-value new Danish: a four-course seasonal menu in a warm, buzzy room. The flagship of the Cofoco group.</p>
+      <p class="meta"><b>Price:</b> four-course seasonal menu about 400 DKK (about $60) per person; wine pairing extra.</p>
       <p style="margin:0;font-size:13px;background:#e8f5e9;color:#2e7d32;border-radius:8px;padding:7px 9px"><b>Wide open Fri Jul 31 dinner,</b> 18:00 to 21:30.</p>
       <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>No deposit, free to cancel.</b> The same booking page also holds sisters Olise, Superbon, and Vækst if this one fills.</p>
       <div class="links">
@@ -311,11 +326,65 @@
         <span class="chip">💰💰</span>
       </div>
       <p class="blurb">Cofoco's design-award room: rustic-elegant Nordic plates with a few surprises. A softer, prettier setting than Cofoco itself.</p>
+      <p class="meta"><b>Price:</b> four-course menu about 450 DKK (about $70) per person; wine pairing extra.</p>
       <p style="margin:0;font-size:13px;background:#fbeec3;color:#6d5510;border-radius:8px;padding:7px 9px"><b>Open but tight:</b> Fri Jul 31 had only 21:15 for two. Better odds midweek. Same booking system as Cofoco.</p>
       <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>No deposit, free to cancel.</b></p>
       <div class="links">
         <a href="https://cofoco.dk/en/restaurant/hoest" target="_blank" rel="noopener">Book ↗</a>
         <a href="https://www.google.com/maps/search/?api=1&amp;query=H%C3%B8st+Copenhagen" target="_blank" rel="noopener">Open in Maps ↗</a>
+      </div>
+    </div>
+
+    <div class="card" style="border-left-color:#c0392b;cursor:default">
+      <h3>Silberbauer's Bistro <span style="font-size:12px;font-weight:700;color:#a23a28">★ Satoko's pick</span></h3>
+      <div class="row">
+        <span class="badge b-eat">Relaxed · Bib Gourmand</span>
+        <span class="chip">French fish bistro</span>
+        <span class="chip">Jægersborggade, Nørrebro</span>
+        <span class="chip">💰💰</span>
+      </div>
+      <p class="blurb">The spot a restaurateur tipped us off to: a snug, red-checkered-tablecloth French fish bistro from chef Mathias Silberbauer, with a serious natural-wine cellar. Michelin Bib Gourmand, and mostly fish and shellfish, so it doubles as a seafood night.</p>
+      <p class="meta"><b>Price:</b> à la carte, roughly 400 to 550 DKK (about $60 to $85) per person before drinks.</p>
+      <p style="margin:0;font-size:13px;background:#e8f5e9;color:#2e7d32;border-radius:8px;padding:7px 9px"><b>Open Wed to Fri in our window</b> (Jul 29, 30, 31), lunch and dinner. Jul 29 dinner showed 17:30, 20:30, and 21:00 for two.</p>
+      <p style="margin:0;font-size:13px;background:#fbeec3;color:#6d5510;border-radius:8px;padding:7px 9px"><b>Card required to hold the table;</b> cancel in good time to avoid a fee. Outdoor tables are first-come, not reservable.</p>
+      <div class="links">
+        <a href="https://silberbauers.dk/" target="_blank" rel="noopener">Book ↗</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Silberbauers+Bistro+Copenhagen" target="_blank" rel="noopener">Open in Maps ↗</a>
+      </div>
+    </div>
+
+    <div class="card" style="border-left-color:#c0392b;cursor:default">
+      <h3>Frank's Kro <span style="font-size:12px;font-weight:700;color:#a23a28">★ Kai's pick</span></h3>
+      <div class="row">
+        <span class="badge b-eat">Relaxed</span>
+        <span class="chip">Traditional Danish (kro)</span>
+        <span class="chip">Nørrebro · Fredensgade</span>
+        <span class="chip">💰</span>
+      </div>
+      <p class="blurb">Local Danish home cooking: warm-hearted kro classics, cold beer, and Danish sing-along in a nostalgic, antler-lined room. The homey counterpoint to the tasting menus.</p>
+      <p class="meta"><b>Price:</b> hearty à la carte, roughly 250 to 350 DKK (about $40 to $55) per person before drinks.</p>
+      <p style="margin:0;font-size:13px;background:#e8f5e9;color:#2e7d32;border-radius:8px;padding:7px 9px"><b>Open Thu and Fri in our window</b> (Jul 30, 31), dinner. Jul 30 was wide open, 17:30 to 20:30. Closed earlier in the week; weekend lunch needs a group of 15 or more.</p>
+      <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>Books through easyTable with no card, free to cancel.</b></p>
+      <div class="links">
+        <a href="https://www.frankskro.dk/en" target="_blank" rel="noopener">Book ↗</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Frank%27s+Kro+Copenhagen" target="_blank" rel="noopener">Open in Maps ↗</a>
+      </div>
+    </div>
+
+    <div class="card" style="border-left-color:#2d6a7a;cursor:default">
+      <h3>Fiskebaren (Kødbyens Fiskebar) <span style="font-size:12px;font-weight:700;color:#2d6a7a">🦪 seafood</span></h3>
+      <div class="row">
+        <span class="badge b-eat">Seafood · Bib Gourmand</span>
+        <span class="chip">Oysters + daily catch</span>
+        <span class="chip">Meatpacking, Vesterbro</span>
+        <span class="chip">💰💰💰</span>
+      </div>
+      <p class="blurb">For Satoko's love of seafood: a buzzy Bib Gourmand fish bar in the old Meatpacking district, oysters and the day's catch around a big glass wine cellar. Open through the summer.</p>
+      <p class="meta"><b>Price:</b> à la carte, roughly 500 to 700 DKK (about $75 to $110) per person before drinks; oysters extra.</p>
+      <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>Books online at fiskebaren.dk</b> (their pop-up widget would not show me live times, so confirm the slot on the site). More seafood if it is full: <b>Musling</b> (same owners, by Torvehallerne, a touch calmer) and <b>Fishmarket</b> (near d'Angleterre, oysters and champagne).</p>
+      <div class="links">
+        <a href="https://fiskebaren.dk/en/" target="_blank" rel="noopener">Book ↗</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=K%C3%B8dbyens+Fiskebar+Copenhagen" target="_blank" rel="noopener">Open in Maps ↗</a>
       </div>
     </div>
 
@@ -327,10 +396,10 @@
     <ul>
       <li><b>Kong Hans Kælder (2★):</b> reopens around Aug 5, first bookable table Aug 7.</li>
       <li><b>AOC (2★):</b> summer-closed, reopens Tue Aug 4.</li>
-      <li><b>Noma (3★):</b> Copenhagen season starts Aug 5, prepaid, roughly 4,500 DKK per person.</li>
+      <li><b>Noma (3★):</b> Copenhagen season starts Aug 5, prepaid, roughly 4,500 DKK (about $690) per person.</li>
       <li><b>Kadeau (2★):</b> the team cooks at its Bornholm outpost through the summer.</li>
     </ul>
-    <p style="margin:8px 0 0;color:#6f685e;font-size:13px"><b>Shortlist to book:</b> hold Marchal now (cancelable), then choose between the Geranium lunch on Jul 31 and a relaxed Cofoco dinner once we have decided.</p>
+    <p style="margin:8px 0 0;color:#6f685e;font-size:13px"><b>Shortlist to book:</b> lock Silberbauer's (Satoko's pick) and hold Marchal now, both cancelable; add Frank's Kro for a local Danish night; then decide the Geranium lunch on Jul 31 as our one splurge. Fiskebaren covers the seafood craving.</p>
   </div>
 
   <h2 class="section-head" id="plan" style="margin-top:34px">Plan ahead &amp; logistics</h2>
@@ -1165,6 +1234,7 @@ ITIN.forEach(day=>{
   const c=document.createElement('div');
   c.className='day'+(day.wknd?' wknd':'');
   let right='';
+  right+='<div class="wx wx-empty" data-wxkey="'+day.d+'"></div>';
   (day.who||[]).forEach(w=>{ right+='<span class="who-chip">'+w+'</span>'; });
   if(day.who) right+='<div></div>';
   (day.fixed||[]).forEach(f=>{ right+='<p class="fixed-line">'+f+'</p>'; });
@@ -1176,6 +1246,55 @@ ITIN.forEach(day=>{
   c.innerHTML='<div class="dt"><div class="dow">'+day.dow+'</div><div class="dnum">'+day.d+'</div></div><div>'+right+'</div>';
   daysList.appendChild(c);
 });
+
+/* ====================== WEATHER (live + offline snapshot) ====================== */
+/* Live forecast from Open-Meteo (free, no API key), fetched in the browser on each open
+   and cached to localStorage for offline viewing. WX_SNAPSHOT is the baked fallback,
+   refreshed once per day by the scheduled task "refresh-copenhagen-weather".
+   Keys match the ITIN[].d labels, e.g. "Jul 24", "Aug 1". */
+const WX_SNAPSHOT = {"updated":"2026-07-24","days":{"Jul 24":{"c":3,"hi":21.5,"lo":15.9,"pop":2},"Jul 25":{"c":51,"hi":23.5,"lo":17.0,"pop":27},"Jul 26":{"c":61,"hi":19.9,"lo":16.0,"pop":78},"Jul 27":{"c":51,"hi":19.7,"lo":14.1,"pop":49},"Jul 28":{"c":51,"hi":20.8,"lo":13.5,"pop":22},"Jul 29":{"c":3,"hi":21.6,"lo":16.8,"pop":18},"Jul 30":{"c":51,"hi":23.4,"lo":18.2,"pop":12},"Jul 31":{"c":51,"hi":26.2,"lo":18.7,"pop":14},"Aug 1":{"c":3,"hi":21.4,"lo":17.0,"pop":14},"Aug 2":{"c":2,"hi":25.4,"lo":18.3,"pop":18},"Aug 3":{"c":51,"hi":25.7,"lo":21.4,"pop":17},"Aug 4":{"c":51,"hi":26.1,"lo":22.1,"pop":25},"Aug 5":{"c":3,"hi":24.5,"lo":20.2,"pop":22},"Aug 6":{"c":51,"hi":21.0,"lo":19.0,"pop":24},"Aug 7":{"c":51,"hi":21.9,"lo":17.8,"pop":30}}};
+
+const WX_LAT=55.6761, WX_LON=12.5683;
+const WX_M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const WX_URL="https://api.open-meteo.com/v1/forecast?latitude="+WX_LAT+"&longitude="+WX_LON+
+  "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
+  "&timezone=Europe%2FCopenhagen&forecast_days=16";
+const WMO={0:["☀️","Clear"],1:["🌤️","Mostly sunny"],2:["⛅","Partly cloudy"],3:["☁️","Overcast"],
+ 45:["🌫️","Fog"],48:["🌫️","Rime fog"],51:["🌦️","Light drizzle"],53:["🌦️","Drizzle"],55:["🌦️","Heavy drizzle"],
+ 56:["🌧️","Freezing drizzle"],57:["🌧️","Freezing drizzle"],61:["🌦️","Light rain"],63:["🌧️","Rain"],65:["🌧️","Heavy rain"],
+ 66:["🌧️","Freezing rain"],67:["🌧️","Freezing rain"],71:["🌨️","Light snow"],73:["🌨️","Snow"],75:["🌨️","Heavy snow"],
+ 77:["🌨️","Snow grains"],80:["🌦️","Rain showers"],81:["🌧️","Rain showers"],82:["⛈️","Heavy showers"],
+ 85:["🌨️","Snow showers"],86:["🌨️","Snow showers"],95:["⛈️","Thunderstorm"],96:["⛈️","Thunderstorm"],99:["⛈️","Thunderstorm"]};
+function wxKey(iso){var p=iso.split("-");return WX_M[(+p[1])-1]+" "+(+p[2]);}
+function wxF(c){return Math.round(c*9/5+32);}
+function wxChip(w){
+  if(!w||w.hi==null) return '<span class="wx-ico">🌡️</span><span class="wx-dash">forecast not out yet</span>';
+  var m=WMO[w.c]||["🌡️","—"], hi=Math.round(w.hi), lo=Math.round(w.lo);
+  var s='<span class="wx-ico" title="'+m[1]+'">'+m[0]+'</span><span class="wx-desc">'+m[1]+'</span>'+
+        '<span class="wx-t"><span class="wx-hi">'+hi+'°</span>/<span class="wx-lo">'+lo+'°</span>C '+
+        '<span class="wx-f">('+wxF(w.hi)+'/'+wxF(w.lo)+'°F)</span></span>';
+  if(w.pop!=null && w.pop>=20) s+='<span class="wx-pop">☔ '+w.pop+'%</span>';
+  return s;
+}
+function wxRender(days,note){
+  document.querySelectorAll('.wx[data-wxkey]').forEach(function(el){
+    var k=el.getAttribute('data-wxkey'), has=!!(days&&days[k]);
+    el.innerHTML=wxChip(has?days[k]:null);
+    el.classList.toggle('wx-empty',!has);
+  });
+  var u=document.getElementById('wx-updated'); if(u&&note) u.innerHTML=note;
+}
+(function initWx(){
+  var seed=WX_SNAPSHOT, src=(WX_SNAPSHOT.updated?"baked snapshot "+WX_SNAPSHOT.updated:"");
+  try{var c=JSON.parse(localStorage.getItem('cphWx')||'null'); if(c&&c.days){seed=c;src="saved "+c.updated;}}catch(e){}
+  wxRender(seed.days, '🌤️ Weather updates live from Open-Meteo when online'+(src?' (showing '+src+' offline)':'')+'.');
+  fetch(WX_URL).then(function(r){return r.json();}).then(function(j){
+    var d=j.daily, map={};
+    d.time.forEach(function(iso,i){map[wxKey(iso)]={c:d.weather_code[i],hi:d.temperature_2m_max[i],lo:d.temperature_2m_min[i],pop:d.precipitation_probability_max[i]};});
+    try{localStorage.setItem('cphWx',JSON.stringify({updated:new Date().toISOString().slice(0,10),days:map}));}catch(e){}
+    wxRender(map,'🌤️ Weather: live from Open-Meteo · loaded '+new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}));
+  }).catch(function(){/* offline: keep the seeded snapshot */});
+})();
 </script>
 </body>
 </html>
