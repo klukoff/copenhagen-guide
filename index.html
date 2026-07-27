@@ -116,6 +116,25 @@
   .bland{background:#1e8f4e;color:#fff;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
   @media (max-width:760px){ .bday-grid{grid-template-columns:1fr} #bmap{height:340px} }
 
+  /* cargo-bike routes */
+  #kmap{height:440px;border-radius:12px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.05);margin:12px 0 6px}
+  .kchips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 2px}
+  .kchip{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+  .kchip .kdot{width:11px;height:11px;border-radius:50%;flex:0 0 11px}
+  .kchip.off{opacity:.4}
+  .kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;margin-top:14px}
+  .kcard{background:var(--card);border:1px solid var(--line);border-left:5px solid #999;border-radius:12px;padding:14px 16px}
+  .kcard h3{margin:0 0 3px;font-size:16.5px;letter-spacing:-.01em}
+  .kmeta{font-size:12.5px;color:var(--muted);margin:0 0 8px}
+  .kwhy{font-size:13.5px;margin:0 0 9px;line-height:1.5}
+  .kstops{list-style:none;margin:0;padding:0}
+  .kstops li{display:flex;gap:8px;align-items:flex-start;padding:4px 6px;border-radius:8px;font-size:12.8px;line-height:1.45;cursor:pointer}
+  .kstops li:hover{background:#faf7f2}
+  .knum{flex:0 0 19px;width:19px;height:19px;border-radius:50%;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .kpin{width:22px;height:22px;border-radius:50%;color:#fff;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+  .kswim{display:inline-block;background:#e8f4fb;border:1px solid #b8dcf0;color:#1b6b96;border-radius:6px;padding:1px 7px;font-size:11.5px;font-weight:700;margin-top:8px}
+  @media (max-width:560px){ #kmap{height:56vh} }
+
   /* day-by-day itinerary */
   .day{display:grid;grid-template-columns:118px 1fr;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 10px}
   .day.wknd{background:#fdfaf1}
@@ -184,6 +203,7 @@
     <a href="#" onclick="goSection('eat','eat');return false">Eat</a>
     <a href="#" onclick="goSection('me','ours');return false">Our spots</a>
     <a href="#days">📅 Day by day</a>
+    <a href="#bike">🚲 Bike routes</a>
     <a href="#birthday">🎂 Birthday</a>
     <a href="#finedining">🍽️ Date night</a>
     <a href="#vouchers">🎟️ Vouchers</a>
@@ -203,12 +223,12 @@
     <h3 class="btitle">Kai turns 40 on the water</h3>
     <div class="row">
       <span class="badge b-must">Birthday plan</span>
-      <span class="chip">Thursday July 30 · 9:30 morning slot</span>
-      <span class="chip">3 hours · GoBoat's self-drive max</span>
+      <span class="chip">✅ Booked · Thursday July 30, 11:30–14:00</span>
+      <span class="chip">2.5 hours on the water</span>
       <span class="chip">Seats 8 · three generations, one boat</span>
-      <span class="chip">Morning start · dock opens 9:30</span>
+      <span class="chip">Free cancellation until Wed Jul 29</span>
     </div>
-    <p class="blurb" style="font-size:14.5px;margin:10px 0 0"><b>The plan:</b> sail the harbor loop while everyone's fresh, picnic on the water instead of a long shore stop, land ten minutes for ice cream at Broens Gadekøkken, then an easy cruise home past the Opera House. It's a solar picnic boat we drive ourselves: no license needed, a table in the middle, life jackets on board for the kids.</p>
+    <p class="blurb" style="font-size:14.5px;margin:10px 0 0"><b>The plan:</b> sail the harbor loop with lunch aboard instead of a long shore stop, land ten minutes for ice cream at Broens Gadekøkken, then an easy cruise home past the Opera House and back on land by 14:00, in time for naps. It's a solar picnic boat we drive ourselves: no license needed, a table in the middle, life jackets on board for the kids.</p>
     <div class="bday-grid">
       <div>
         <div id="bmap"></div>
@@ -223,31 +243,41 @@
     </div>
     <div class="plan-grid" style="margin-top:14px">
       <div class="note" style="margin:0">
-        <h2>Booking</h2>
+        <h2>Booked · what's left to do</h2>
         <ul>
-          <li><b>Where:</b> <a href="https://goboat.dk/en/" target="_blank" rel="noopener">goboat.dk ↗</a>, Islands Brygge location. July is peak season, so book ahead; morning slots go first.</li>
-          <li><b>Length:</b> options are 1, 2, or 3 hours; 3 is the max and the birthday pick.</li>
-          <li><b>Price:</b> roughly €100 for 2 hours as a reference; confirm the 3-hour price at checkout.</li>
-          <li><b>Picnic basket add-on:</b> order 24h+ ahead, or bring our own spread.</li>
-          <li><b>Cancellation:</b> full refund up to 72h before; changes or a credit note up to 24h.</li>
+          <li><b>The booking:</b> Thu Jul 30, 11:30–14:00, one boat, <a href="https://goboat.dk/en/" target="_blank" rel="noopener">goboat.dk ↗</a> at Islands Brygge.</li>
+          <li><b>⚠️ Online check-in is mandatory, 48h before:</b> the window opens <b>Tue Jul 28 at 11:30</b>. GoBoat emails a link; follow it and they email back a boarding pass covering everyone in the booking. No boarding pass, no boat — they run it like a flight.</li>
+          <li><b>Arrive 11:15</b> at Islands Brygge for check-in and the safety briefing. Turn up late and they shorten your time on the water, not the end time.</li>
+          <li><b>Picnic basket add-on:</b> order by Wed Jul 29, 24h+ ahead, or bring our own spread.</li>
+          <li><b>Cancellation:</b> free until Wed Jul 29; after that it's a credit note at best.</li>
         </ul>
       </div>
       <div class="note" style="margin:0">
-        <h2>Why a morning slot</h2>
+        <h2>Running the 11:30 slot</h2>
         <ul>
-          <li><b>Calmer water,</b> fewer tour boats, easier steering for the birthday captain.</li>
-          <li><b>Nyhavn's mouth</b> clogs with canal tours by midday; early boats glide through.</li>
+          <li><b>Be at the dock by 11:15</b> for check-in, life jackets and the intro, boarding pass on a phone. It is a 15-minute walk from base 2.</li>
+          <li><b>Lunch on board</b> from the start, which turns the busiest hour into the picnic hour.</li>
+          <li><b>Nyhavn's mouth</b> clogs with canal tours at midday, so take it slowly there or save it for the way back.</li>
           <li><b>No toilet on board,</b> so time the hop-offs; every marked mooring has toilets close by.</li>
-          <li><b>Home by early afternoon</b> with both kids still standing (naps intact).</li>
+          <li><b>Off the water at 14:00,</b> home by 14:30, naps intact for the 20:15 table.</li>
         </ul>
       </div>
     </div>
   </div>
 
+  <h2 class="section-head" id="bike" style="margin-top:34px"><span class="swatch" style="background:#1e8f4e"></span>🚲 Cargo-bike routes from base 2</h2>
+  <div class="note" style="margin-top:0">
+    <p style="margin:0 0 6px">The e-cargo bike is ours from <b>Tuesday July 28</b>. Everything below starts at the door by the Central Station. With electric assist and both kids in the box, reckon on <b>13–15 km/h</b> including stops for pointing at things.</p>
+    <p style="margin:0;font-size:13px;color:var(--muted)">Copenhagen's cycle lanes are one-way and on the right; turn left in two stages (roll straight across, stop, re-aim). Hand signals are expected: arm out to turn, hand up to stop. Kids under 6 in the box need no helmet by law, but put them in one anyway. Dashed lines are approximate; use the “Open in Maps” link in each pin for turn-by-turn.</p>
+  </div>
+  <div class="kchips" id="kchips"></div>
+  <div id="kmap"></div>
+  <div class="kgrid" id="kgrid"></div>
+
   <h2 class="section-head" id="days" style="margin-top:34px"><span class="swatch" style="background:#2b5797"></span>📅 Day by day · July 23 – August 9</h2>
   <div class="note" style="margin-top:0">
     <p style="margin:0 0 6px"><b>The rhythm:</b> one anchor a day, quiet time roughly 13:00–15:00, evenings local. 🔒 lines are locked plans; everything else is swappable, and rainy-day swaps live in <a href="#" onclick="goSection('museum','museums');return false">Museums &amp; rainy-day</a>.</p>
-    <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Zoo panda-window table (Fri 24 lunch) · Tivoli ride wristbands + Absalon seats for Tue 28 · Kronborg tickets for Wed 29 · GoBoat 9:30 slot for Thu 30, picnic basket ordered by Wed · Louisiana timed tickets for Fri 31.</p>
+    <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Tivoli ride wristbands + Absalon seats for Tue 28 · Kronborg tickets for Wed 29 · GoBoat online check-in Tue 28 from 11:30, mandatory 48h boarding pass, then the picnic basket by Wed 29 (cruise is booked, 11:30–14:00 Thu 30) · Øresund tickets in the DSB app for Sun Aug 2 and passports out for the border check · Frilandsmuseet tickets online for Tue Aug 4. Copenhagen Contemporary, Louisiana and the Designmuseum are all walk-up.</p>
   </div>
   <p class="wx-note" id="wx-updated"></p>
   <div id="days-list"></div>
@@ -354,7 +384,7 @@
       </div>
       <p class="blurb">Cofoco's design-award room: rustic-elegant Nordic plates with a few surprises. A softer, prettier setting than Cofoco itself.</p>
       <p class="meta"><b>Price:</b> four-course menu about 450 DKK (about $70) per person; wine pairing extra.</p>
-      <p style="margin:0;font-size:13.5px;background:#1e8f4e;color:#fff;border-radius:8px;padding:8px 10px;font-weight:700">✅ RESERVED · Wed Jul 29, 21:00 · 2 guests<br><span style="font-weight:600;font-size:12.5px">Booking #14560487, confirmed to kai.lukoff@gmail.com</span></p>
+      <p style="margin:0;font-size:13.5px;background:#1e8f4e;color:#fff;border-radius:8px;padding:8px 10px;font-weight:700">✅ RESERVED · Wed Jul 29, 21:00 · 2 guests<br><span style="font-weight:600;font-size:12.5px">Booking #14560487, confirmation in Kai's inbox</span></p>
       <p style="margin:0;font-size:13px;background:#fbeec3;color:#6d5510;border-radius:8px;padding:7px 9px"><b>Cancelable:</b> cancel before 1PM the day before (by Tue Jul 28) or they charge 250 DKK per guest. Card is saved on the booking.</p>
       <p style="margin:0;font-size:13px;background:#f4efe7;color:#6f685e;border-radius:8px;padding:7px 9px"><b>No deposit, free to cancel.</b></p>
       <div class="links">
@@ -490,14 +520,15 @@
     <div class="note">
       <h2>Book ahead (beyond restaurants)</h2>
       <ul>
-        <li><b>Zoo panda-window table:</b> books out, so reserve as soon as you set a date.</li>
-        <li><b>GoBoat:</b> grab a 3-hour morning slot for <a href="#birthday">the birthday cruise</a>; the picnic-basket add-on needs 24h notice.</li>
-        <li><b>Louisiana:</b> buy timed tickets and go early, before the midday crowds.</li>
+        <li><b>GoBoat:</b> <a href="#birthday">the birthday cruise</a> is booked for 11:30 on Jul 30. Online check-in is mandatory and opens 48h ahead, Tue Jul 28 at 11:30; the picnic-basket add-on needs 24h notice.</li>
+        <li><b>Louisiana:</b> no timed tickets and no reservation, but go early on a weekend day. Tue–Fri it stays open to 22:00, Sat–Sun only to 18:00.</li>
+        <li><b>Frilandsmuseet:</b> buy online for 135 DKK instead of 150 and skip the queue. Open daily to Aug 9, closed Mondays after.</li>
+        <li><b>Malmö:</b> Øresund tickets in the DSB app, and passports for the ID check on the Swedish side.</li>
         <li><b>Canal tour:</b> book about 2 days ahead in July and August (busiest Fri–Sun).</li>
         <li><b>Tivoli:</b> buy ride wristbands online; check the Friday “Fredagsrock” concert if you want one.</li>
         <li><b>CopenHill &amp; Sauna Club Sydhavn:</b> book climbing, skiing, or a sauna session ahead.</li>
       </ul>
-      <p style="margin:8px 0 0;color:#6f685e;font-size:13px">No booking needed: metro and regional trains, Nationalmuseet, DAC, Experimentarium, Designmuseum, playgrounds, Reffen, harbour bath, Bakken, and Dyrehaven. Frilandsmuseet is free but check open days. Confirm the Natural History Museum isn't mid-renovation.</p>
+      <p style="margin:8px 0 0;color:#6f685e;font-size:13px">No booking needed: metro and regional trains, Nationalmuseet, DAC, Designmuseum, Copenhagen Contemporary, Louisiana, playgrounds, Reffen, harbour bath, Bakken, and Dyrehaven. The Copenhagen Card covers admission at the Designmuseum, Copenhagen Contemporary, Louisiana and Frilandsmuseet, so price it against four separate adult tickets. Confirm the Natural History Museum isn't mid-renovation.</p>
     </div>
     <div class="note">
       <h2>Tourist passes</h2>
@@ -659,22 +690,24 @@ const PLACES = [
    site:"https://dac.dk/en/", price:"Paid · slide inside", img:W+"BLOX_the_Building_Danish_Architecture_Center.jpg?width=800",
    blurb:"An absolute must. A three-story slide runs inside the museum, plus an outdoor playground and a kids' craft area pitched at different ages. Tasty restaurant with kids' options.",
    kid:"<b>For both:</b> the indoor slide is the whole trip as far as they're concerned."},
-  {cat:"museum", pri:"high", name:"Copenhagen Contemporary", area:"Refshaleøen (next to Reffen)", lat:55.6930, lng:12.6120,
-   site:"https://copenhagencontemporary.org/en/", img:W+"Copenhagen_Contemporary_Refshale%C3%B8en.jpg?width=800",
-   blurb:"A kids' craft wing tied to the main exhibit, very kid-friendly. Check the current theme first; the shows can be edgy.",
-   kid:"<b>Pair with Reffen</b> next door for an easy half day on Refshaleøen."},
+  {cat:"museum", pri:"must", onlist:true, name:"Copenhagen Contemporary", area:"Refshaleøen (next to Reffen)", lat:55.6905, lng:12.6105,
+   site:"https://copenhagencontemporary.org/en/visit/", price:"140 DKK adults · 25 DKK ages 3–17 · under 3 and Copenhagen Card free",
+   img:W+"Copenhagen_Contemporary_Refshale%C3%B8en.jpg?width=800",
+   blurb:"Shipyard halls turned over to installation art, with a weekend and school-holiday workshop studio for kids. Closed Mondays in July, open every day in August. Check the current theme first; the shows can be edgy.",
+   kid:"<b>Pair with Reffen</b> next door for an easy half day on Refshaleøen. The halls are big enough for a three-year-old to run in."},
   {cat:"museum", pri:"option", name:"Natural History Museum of Denmark", area:"By the Botanical Garden", lat:55.6873, lng:12.5730,
    site:"https://snm.ku.dk/english/", img:W+"Statens_Naturhistoriske_Museum_2015.jpg?width=800",
    blurb:"Small, charming, and doable end to end with small kids, with a chill kids' cafe. Check the website first: it may close for summer renovations.",
    kid:"<b>For Enzo:</b> animals and natural history in a one-hour-sized museum."},
-  {cat:"museum", pri:"must", onlist:true, name:"Experimentarium", area:"Hellerup · ~15 min by train/metro", lat:55.7290, lng:12.5790,
+  {cat:"museum", pri:"option", name:"Experimentarium ✅ done", area:"Hellerup · ~15 min by train/metro", lat:55.7290, lng:12.5790,
    site:"https://www.experimentarium.dk/en/", price:"~210 DKK · under 3 free", img:W+"Experimentarium%2C%20Hellerup.jpg?width=800",
-   blurb:"A huge hands-on science center where everything is built to be touched. The Miniverse zone is designed for ages 1–5, so both kids get their own lab-playground.",
-   kid:"<b>For both:</b> Miniverse (ages 1–5) is the whole reason to go. Perfect rainy-day backup."},
+   blurb:"Already ticked off in week one. A huge hands-on science center where everything is built to be touched, with the Miniverse zone built for ages 1–5.",
+   kid:"<b>Repeat only:</b> worth going back on a washout day, otherwise low priority now."},
   {cat:"museum", pri:"high", onlist:true, name:"Designmuseum Danmark", area:"Frederiksstaden · near Amalienborg", lat:55.6873, lng:12.5905,
-   site:"https://designmuseum.dk/en/", img:W+"Designmuseum_Danmark.jpg?width=800",
-   blurb:"Denmark's design museum: chairs, ceramics, posters, and the famous corridor of Danish modern classics. A calm, grown-up hour or two with a pretty garden cafe.",
-   kid:"<b>Grown-up lean:</b> kids tolerate it. Pair with an Amalienborg stroll."},
+   site:"https://designmuseum.dk/en/besog-os/opening-hours-admission-2/", price:"140 DKK adults · under 18 free · Copenhagen Card free",
+   img:W+"Designmuseum_Danmark.jpg?width=800",
+   blurb:"Denmark's design museum: chairs, ceramics, posters, and the famous corridor of Danish modern classics. A calm, grown-up hour or two with a pretty garden cafe. Open daily 10–18 from Jul 6 to Aug 31, the rare Copenhagen museum that does not close on Mondays.",
+   kid:"<b>Grown-up lean:</b> kids tolerate it. The Monday opening makes it the natural grandparents-take-the-kids slot. Pair with an Amalienborg stroll."},
   {cat:"museum", pri:"option", name:"Copenhagen Main Library (kids' floor)", area:"Indre By · Krystalgade", lat:55.6808, lng:12.5636,
    site:"https://bibliotek.kk.dk/", price:"Free",
    blurb:"The children's floor is a bright indoor playroom with books, toys, games, and creative stations. Free, comfortable, and a perfect escape on a rainy or hot day.",
@@ -713,6 +746,26 @@ const PLACES = [
    price:"Free",
    blurb:"A proper sandy beach with shallow, calm water, summer lifeguards, and a long boardwalk. The lagoon side is very shallow and warm, perfect for toddler wading. Bring a picnic.",
    kid:"<b>For both:</b> a real beach day inside the city."},
+  {cat:"play", pri:"must", onlist:true, name:"Sandkaj Harbour Bath (Nordhavn)", area:"Nordhavn · ~20 min by cargo bike · free", lat:55.7040, lng:12.5960,
+   site:"https://www.visitcopenhagen.com/copenhagen/planning/sandkaj-harbour-bath-gdk1093746", price:"Free",
+   blurb:"Stepped wooden decks into calm, shallow harbour water, with lifeguards in summer and cafés along the quay. The gentlest swim in the city for a three-year-old, and stop 3 on the north-coast bike route.",
+   kid:"<b>Best first swim:</b> steps not ladders, and the water stays shin-deep for a long way."},
+  {cat:"play", pri:"high", name:"Charlottenlund Strand", area:"Charlottenlund · ~14 km bike or S-train · free", lat:55.7480, lng:12.5825,
+   price:"Free",
+   blurb:"The Nørrebro hosts' favourite over Bellevue: sand with big lawns behind it, an old fort, a campsite café, and far less see-and-be-seen. The turn-around point on the north-coast bike route.",
+   kid:"<b>For both:</b> shade and grass when the sand gets old."},
+  {cat:"play", pri:"high", name:"Svanemøllen Strand", area:"Østerbro · ~25 min bike · free", lat:55.7160, lng:12.5860,
+   price:"Free",
+   blurb:"A city beach with real sand and a very gradual entry, ten minutes past Nordhavn on the coast route. Kiosk on the promenade and an S-train station five minutes away if legs give out.",
+   kid:"<b>For both:</b> the closest actual sand to the north bike route."},
+  {cat:"play", pri:"option", name:"Kastrup Søbad (the Snail)", area:"Kastrup · ~10 km bike · free", lat:55.6398, lng:12.6510,
+   price:"Free",
+   blurb:"A spiral of curved wood coiling out into the Øresund, with diving platforms and open sea. Architecturally the best swim near Copenhagen, but deep water only.",
+   kid:"<b>Adults and strong swimmers.</b> Pair it with the Amager Strandpark lagoon for the kids."},
+  {cat:"play", pri:"high", name:"Kalvebod Bølge", area:"By the Central Station · ~10 min bike · free", lat:55.6693, lng:12.5757,
+   price:"Free",
+   blurb:"Wooden wave-decks stepping down into the harbour, the nearest water to base 2 and the first stop on the harbour bike route. Kayak rental and ladders, no shallow end.",
+   kid:"<b>Quick dip, not a beach day.</b> Ten minutes from the door when the sun comes out unexpectedly."},
   {cat:"play", pri:"high", name:"Frederiksberg Gardens", area:"Frederiksberg · free", lat:55.6717, lng:12.5248,
    img:W+"Branta%20canadensis%2C%20Frederiksberg%20Have%2C%20Denmark%2C%2020220617%201627%206918.jpg?width=800", imgtag:"Frederiksberg",
    price:"Free",
@@ -750,15 +803,22 @@ const PLACES = [
    kid:"<b>For both:</b> a playground with a skyline. Combine with a harbor-front stroll."},
 
   /* ---- DAY TRIPS ---- */
-  {cat:"trip", pri:"high", name:"Louisiana Museum of Modern Art", area:"Humlebæk · ~36 min train", lat:55.9696, lng:12.5429,
-   site:"https://louisiana.dk/en/", price:"~145 DKK · under 18 free", img:W+"Outside_Louisiana_Museum_of_Modern_Art.jpg?width=800",
-   blurb:"A whole kids' wing plus a seaside sculpture garden and a great restaurant. A special spot, but a full day between train and walk, and it gets crowded later, so go early.",
+  {cat:"trip", pri:"must", onlist:true, name:"Louisiana Museum of Modern Art", area:"Humlebæk · ~40 min Kystbanen + 10 min walk", lat:55.9696, lng:12.5429,
+   site:"https://louisiana.dk/en/plan-your-visit/opening-hours/", price:"145 DKK adults · under 18 free · Copenhagen Card free",
+   img:W+"Outside_Louisiana_Museum_of_Modern_Art.jpg?width=800",
+   blurb:"A three-storey kids' wing plus a seaside sculpture garden and a real restaurant. Closed Mondays. Tue–Fri it runs to 22:00, Sat–Sun only to 18:00, and the Children's Wing shuts at 18:00 either way. No timed tickets and no reservation, so just turn up early.",
    kid:"<b>Weekend pick:</b> art for you, sculpture park and sea for them.",
    ages:"Art workshops for ages 3+", duration:"Half to full day"},
+  {cat:"trip", pri:"high", onlist:true, name:"Malmö, Sweden", area:"Øresundståg from København H · 35–40 min", lat:55.6090, lng:13.0007,
+   site:"https://malmotown.com/en/", price:"~110 DKK each way · under 16 half price · Swedish kroner over there",
+   img:W+"Malm%C3%B6_Central_Station_2015.jpg?width=800",
+   blurb:"A second country before lunch, straight from the platform under base 2. Malmöhus Castle holds an aquarium and a natural history museum in one moated fort and is free for under-19s. Folkets Park has the playground and Far i Hatten's terrace; Ribersborg has the beach and the long pier.",
+   kid:"<b>Bring passports</b> for everyone including the kids. Sweden runs ID checks on its side of the bridge.",
+   ages:"All ages", duration:"Full day"},
   {cat:"trip", pri:"high", name:"Frilandsmuseet (Open Air Museum)", area:"Kongens Lyngby · ~25 min train + walk", lat:55.7670, lng:12.5010,
-   site:"https://en.natmus.dk/museums-and-palaces/the-open-air-museum/", price:"Free", img:W+"Frilandsmuseet%2C_2014-03-15%2C_skr%C3%A5t_fra_h%C3%B8jre.jpg?width=800",
-   blurb:"Historic Danish farms and homes across huge grounds. Kids pet rabbits, pump old wells, play shopkeeper in a miniature village, and roam original playgrounds. Free entry.",
-   kid:"<b>For both:</b> farm animals plus dress-up history, all outdoors.",
+   site:"https://frilandsmuseet.dk/en", price:"150 DKK adults (135 online) · under 18 free · Copenhagen Card free", img:W+"Frilandsmuseet%2C_2014-03-15%2C_skr%C3%A5t_fra_h%C3%B8jre.jpg?width=800",
+   blurb:"A hundred-plus historic Danish farms and homes relocated onto 86 hectares. Kids pet animals, pump old wells, play shopkeeper in a miniature village, and roam original playgrounds. Open daily 10–17 through Aug 9, then closed Mondays.",
+   kid:"<b>For both:</b> farm animals plus dress-up history, all outdoors. Rent a trolley at the gate for 30 DKK.",
    ages:"All ages", duration:"Half to full day"},
   {cat:"trip", pri:"high", name:"Dyrehaven deer park + Bakken", area:"Klampenborg · ~20 min S-train", lat:55.7900, lng:12.5760,
    site:"https://www.bakken.dk/", price:"Free entry · rides per-ride", img:W+"Dyrehaven_-_Klampenborg_Port_%281%29.jpg?width=800",
@@ -1231,6 +1291,165 @@ BLAND.forEach((s,i)=>{
   bLandList.appendChild(li);
 });
 
+/* ====================== CARGO-BIKE ROUTES (from base 2) ====================== */
+const BIKE = [
+ {id:"harbour", color:"#c1442e", name:"The harbour circle to Refshaleøen",
+  meta:"~15 km round trip · ~1 h 10 riding · flat, protected lanes the whole way",
+  why:"The scenic ride, and the one to do first. Out along the water to Langebro, through Christianshavn's canals, then the industrial edge of Refshaleøen for art and street food. Home over the Kissing Bridge past Nyhavn. Pairs perfectly with the Copenhagen Contemporary day.",
+  swim:"Swim: Kalvebod Bølge on the way out, La Banchina's ladder at the far end",
+  line:[[55.6726,12.5643],[55.6714,12.5678],[55.6702,12.5722],[55.6693,12.5757],[55.6702,12.5788],
+        [55.6716,12.5817],[55.6725,12.5856],[55.6730,12.5878],[55.6733,12.5915],[55.6752,12.5928],
+        [55.6778,12.5943],[55.6806,12.5962],[55.6840,12.6010],[55.6872,12.6055],[55.6900,12.6095],
+        [55.6921,12.6118],[55.6931,12.6090],[55.6900,12.6040],[55.6862,12.5995],[55.6820,12.5975],
+        [55.6786,12.5974],[55.6795,12.5952],[55.6790,12.5900],[55.6779,12.5836],[55.6764,12.5764],
+        [55.6748,12.5716],[55.6733,12.5670],[55.6726,12.5643]],
+  stops:[
+   {n:1,lat:55.6693,lng:12.5757,name:"Kalvebod Bølge",q:"Kalvebod Bølge",note:"Wooden wave-decks over the harbour, 10 minutes from the door. Ladders straight into clean water."},
+   {n:2,lat:55.6730,lng:12.5878,name:"Cirkelbroen",q:"Cirkelbroen",note:"Olafur Eliasson's five discs with ship masts. Cross slowly, the kids will want to count them."},
+   {n:3,lat:55.6733,lng:12.5915,name:"Christianshavns Kanal",q:"Christianshavns Kanal",note:"Houseboats, the spiral spire of Our Saviour's, and canal-side benches for a snack stop."},
+   {n:4,lat:55.6900,lng:12.6095,name:"Copenhagen Contemporary",q:"Copenhagen Contemporary",note:"Warehouse-scale installation art. Kids 3–17 pay 25 DKK, under 3 free, free with the Copenhagen Card. Free bike parking at the door."},
+   {n:5,lat:55.6921,lng:12.6118,name:"Reffen street food",q:"Reffen Copenhagen",note:"Container kitchens, a sand pit, and something every eater will accept. The easiest lunch on the route."},
+   {n:6,lat:55.6931,lng:12.6090,name:"La Banchina",q:"La Banchina",note:"Tiny harbour bar with a swim ladder and a sauna. Bring towels."},
+   {n:7,lat:55.6786,lng:12.5974,name:"Inderhavnsbroen (Kissing Bridge)",q:"Inderhavnsbroen",note:"The bike bridge into the old town, with Broens Gadekøkken and its ice cream on the landing."},
+   {n:8,lat:55.6795,lng:12.5952,name:"Nyhavn",q:"Nyhavn",note:"Roll the quay slowly, then cut inland at Kongens Nytorv. Walk the bike if the crowd is thick."}
+  ]},
+ {id:"north", color:"#2980b9", name:"North along the Øresund coast",
+  meta:"14 km to Charlottenlund · 19 km to Bakken · ~1 h each way",
+  why:"Copenhagen's best long ride and the one electric assist was invented for. Past Kastellet and the Little Mermaid, through Nordhavn's new waterfront, then a near-continuous coast path to the beaches. Tobias's house in Hellerup sits at the halfway point, so this doubles as the playdate commute.",
+  swim:"Swim: Sandkaj, Svanemøllen, Charlottenlund, Bellevue. Sandkaj is the calmest for a 3-year-old",
+  line:[[55.6726,12.5643],[55.6752,12.5688],[55.6785,12.5722],[55.6812,12.5762],[55.6848,12.5828],
+        [55.6875,12.5892],[55.6893,12.5930],[55.6929,12.5990],[55.6960,12.5962],[55.7010,12.5930],
+        [55.7040,12.5960],[55.7100,12.5900],[55.7160,12.5860],[55.7230,12.5850],[55.7285,12.5840],
+        [55.7360,12.5820],[55.7440,12.5810],[55.7480,12.5825],[55.7600,12.5862],[55.7690,12.5905],
+        [55.7740,12.5820]],
+  stops:[
+   {n:1,lat:55.6893,lng:12.5930,name:"Kastellet",q:"Kastellet Copenhagen",note:"Star-shaped rampart fort with a windmill and moat ducks. Push the bike on the earth walls."},
+   {n:2,lat:55.6929,lng:12.5990,name:"Little Mermaid & Langelinie",q:"Den Lille Havfrue",note:"Two minutes of statue, then the good part: cruise ships up close along the pier."},
+   {n:3,lat:55.7040,lng:12.5960,name:"Sandkaj harbour bath",q:"Sandkaj Badezone",note:"Nordhavn's shallow-stepped harbour bath. The gentlest water in the city for small kids, with a lifeguard in summer."},
+   {n:4,lat:55.7160,lng:12.5860,name:"Svanemøllen Strand",q:"Svanemøllestranden",note:"City beach with real sand and a very gradual entry. Kiosk on the promenade."},
+   {n:5,lat:55.7285,lng:12.5840,name:"Hellerup · Tobias & family",q:"Hellerup",note:"The cousins' turf, about 50 minutes of riding from base 2. Time the arrival for after the morning nap."},
+   {n:6,lat:55.7480,lng:12.5825,name:"Charlottenlund Strand",q:"Charlottenlund Strandpark",note:"The hosts' favourite: lawns behind the sand, an old fort, and a café. The turn-around point for a full day out."},
+   {n:7,lat:55.7690,lng:12.5905,name:"Bellevue & Bakken",q:"Bellevue Beach Klampenborg",note:"Arne Jacobsen's blue-striped beach, then deer in Dyrehaven and the old wooden rides at Bakken. Train home from Klampenborg if legs give out."}
+  ]},
+ {id:"amager", color:"#16a085", name:"The Amager coast to the Snail",
+  meta:"10 km to Kastrup Søbad · 19 km on to Dragør · ~45 min each way",
+  why:"South and east for the actual sandy beach. Amager Strandpark's lagoon is warm, shallow and sheltered, which is the single best swim on this list for a 3- and a 5-year-old. Push on to Dragør's cobbled fishing village if the day is going well.",
+  swim:"Swim: Islands Brygge, then the Amager Strandpark lagoon. The lagoon is knee-deep for a long way out",
+  line:[[55.6726,12.5643],[55.6710,12.5710],[55.6698,12.5778],[55.6690,12.5800],[55.6668,12.5828],
+        [55.6652,12.5900],[55.6642,12.6000],[55.6622,12.6120],[55.6597,12.6250],[55.6572,12.6390],
+        [55.6555,12.6470],[55.6500,12.6510],[55.6440,12.6522],[55.6398,12.6510],[55.6270,12.6560],
+        [55.6100,12.6650],[55.5935,12.6720]],
+  stops:[
+   {n:1,lat:55.6690,lng:12.5800,name:"Islands Brygge Havnebadet",q:"Havnebadet Islands Brygge",note:"The original harbour bath, with a fenced kids' pool. Same dock as the GoBoat birthday cruise."},
+   {n:2,lat:55.6555,lng:12.6470,name:"Amager Strandpark lagoon",q:"Amager Strandpark",note:"Two kilometres of imported sand and a shallow lagoon on the inland side. Ice cream and toilets at Helgoland."},
+   {n:3,lat:55.6398,lng:12.6510,name:"Kastrup Søbad · the Snail",q:"Kastrup Søbad",note:"The spiral wooden sea bath curling out into the Øresund. Deep water and diving platforms, so this one is for the adults."},
+   {n:4,lat:55.5935,lng:12.6720,name:"Dragør old town",q:"Dragør",note:"Yellow cottages, hollyhocks and a working harbour. Smoked fish at the smokehouse, then the bus or a slow ride back."}
+  ]},
+ {id:"lakes", color:"#6c5ce7", name:"The Lakes and a Nørrebro homecoming",
+  meta:"~11 km loop · ~50 min riding · all city, all flat",
+  why:"A loop back through week one. Along the five lakes, over Dronning Louises Bro, through the cemetery where Kierkegaard and H.C. Andersen are buried (it is a park, and Copenhageners picnic in it), then to Superkilen and the old flat. Good for an afternoon when nobody wants a train.",
+  swim:"No swimming. This is the coffee, playground and ice-cream loop",
+  line:[[55.6726,12.5643],[55.6745,12.5592],[55.6770,12.5555],[55.6800,12.5562],[55.6830,12.5598],
+        [55.6866,12.5642],[55.6890,12.5680],[55.6905,12.5620],[55.6900,12.5540],[55.6885,12.5490],
+        [55.6895,12.5455],[55.6940,12.5420],[55.6975,12.5412],[55.7006,12.5378],[55.7020,12.5440],
+        [55.6970,12.5480],[55.6905,12.5532],[55.6860,12.5600],[55.6800,12.5592],[55.6750,12.5602],
+        [55.6726,12.5643]],
+  stops:[
+   {n:1,lat:55.6770,lng:12.5555,name:"Skt. Jørgens Sø",q:"Sankt Jorgens So",note:"Join the lake path here. Swans, rowers, and a lane wide enough to ride two abreast."},
+   {n:2,lat:55.6866,lng:12.5642,name:"Dronning Louises Bro",q:"Dronning Louises Bro",note:"The bridge with 40,000 cyclists a day and people sitting on the parapet. Peak Copenhagen."},
+   {n:3,lat:55.6885,lng:12.5490,name:"Assistens Kirkegård",q:"Assistens Kirkegard",note:"Walk the bike under the lime trees. Andersen and Kierkegaard are here; so are half of Nørrebro on a blanket."},
+   {n:4,lat:55.6895,lng:12.5455,name:"Jægersborggade",q:"Jaegersborggade",note:"One block of small shops. Istid's nitrogen ice cream and GRØD's porridge are both on it."},
+   {n:5,lat:55.6975,lng:12.5412,name:"Superkilen",q:"Superkilen",note:"The pink square and the black hill, plus the swings the kids already know."},
+   {n:6,lat:55.7006,lng:12.5378,name:"Base 1 · Ydre Nørrebro",q:"Norrebro Station",note:"The first exchange flat. Worth a lap so the kids can see the old neighbourhood from the box."},
+   {n:7,lat:55.6970,lng:12.5480,name:"Nørrebroparken",q:"Norrebroparken",note:"Long green strip with a good playground, and the way back toward the lakes."}
+  ]},
+ {id:"fbg", color:"#27ae60", name:"The Frederiksberg green loop",
+  meta:"~9 km loop · ~40 min riding · the short-day option",
+  why:"The gentlest ride here, and the one to keep for a morning with a nap deadline. Palace gardens, elephants seen for free over the zoo fence, an underground cistern turned art space, and the Carlsberg elephant gate on the way home.",
+  swim:"No swimming, but the Frederiksberg Have canals have a summer rowboat and endless heron-spotting",
+  line:[[55.6726,12.5643],[55.6720,12.5592],[55.6735,12.5522],[55.6740,12.5450],[55.6742,12.5352],
+        [55.6745,12.5292],[55.6733,12.5265],[55.6722,12.5228],[55.6708,12.5242],[55.6690,12.5292],
+        [55.6667,12.5332],[55.6655,12.5402],[55.6672,12.5482],[55.6690,12.5560],[55.6710,12.5612],
+        [55.6726,12.5643]],
+  stops:[
+   {n:1,lat:55.6735,lng:12.5522,name:"Værnedamsvej",q:"Vaernedamsvej",note:"The two-block food street between Vesterbro and Frederiksberg. Cheese, wine, and a bakery run."},
+   {n:2,lat:55.6733,lng:12.5265,name:"Frederiksberg Have",q:"Frederiksberg Have",note:"Romantic landscape park with canals, a palace on the hill, and grass for lying on."},
+   {n:3,lat:55.6722,lng:12.5228,name:"Zoo elephants, from the lawn",q:"Frederiksberg Have elephants",note:"Norman Foster's elephant house backs onto the park, so you see them over the ha-ha without a ticket."},
+   {n:4,lat:55.6708,lng:12.5242,name:"Cisternerne, Søndermarken",q:"Cisternerne",note:"A dripping underground reservoir turned installation space. Cold, dark, and a hit with a five-year-old who likes drama."},
+   {n:5,lat:55.6667,lng:12.5332,name:"Carlsberg Elephant Gate",q:"Elefantporten Carlsberg",note:"Four granite elephants holding up the old brewery gate. Ride under it into Carlsberg Byen."},
+   {n:6,lat:55.6690,lng:12.5560,name:"Kødbyen",q:"Kodbyen",note:"The white meat-packing blocks, five minutes from home. Fiskebaren and Jagger are both here."}
+  ]}
+];
+
+const kmap = L.map('kmap',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+  maxZoom:19, attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(kmap);
+L.marker([HOME_BASE2.lat,HOME_BASE2.lng],{icon:L.divIcon({className:'',
+  html:'<div class="kpin" style="background:#111">🏠</div>',iconSize:[22,22],iconAnchor:[11,11]})})
+  .addTo(kmap).bindPopup('<b>Base 2 · by the Central Station</b><br><span style="font-size:12px">Every route below starts here.</span>');
+
+const kLayers = {};
+BIKE.forEach(r=>{
+  const g = L.layerGroup().addTo(kmap);
+  L.polyline(r.line,{color:r.color,weight:4,opacity:.85,dashArray:'8 8'}).addTo(g);
+  r._markers = r.stops.map(s=>{
+    const m = L.marker([s.lat,s.lng],{icon:L.divIcon({className:'',
+      html:'<div class="kpin" style="background:'+r.color+'">'+s.n+'</div>',iconSize:[22,22],iconAnchor:[11,11]})});
+    m.bindPopup('<b>'+s.name+'</b><br><span style="font-size:12px">'+s.note+'</span><br>'+
+      '<a href="'+maps(s.q)+'" target="_blank" rel="noopener">Open in Maps ↗</a>');
+    m.addTo(g); return m;
+  });
+  kLayers[r.id] = g;
+});
+
+const kAll = BIKE.reduce((a,r)=>a.concat(r.line),[[HOME_BASE2.lat,HOME_BASE2.lng]]);
+function kFit(){ kmap.invalidateSize(); kmap.fitBounds(kAll,{padding:[24,24]}); }
+kFit(); setTimeout(kFit,300); window.addEventListener('load',kFit);
+if(window.ResizeObserver){
+  const kel=document.getElementById('kmap');
+  const kro=new ResizeObserver(()=>{ if(kel.clientWidth>0 && kel.clientHeight>0){ kFit(); kro.disconnect(); } });
+  kro.observe(kel);
+}
+
+const kOn = {}; BIKE.forEach(r=>kOn[r.id]=true);
+const kchips = document.getElementById('kchips');
+BIKE.forEach(r=>{
+  const b=document.createElement('button');
+  b.className='kchip'; b.dataset.id=r.id;
+  b.innerHTML='<span class="kdot" style="background:'+r.color+'"></span>'+r.name;
+  b.onclick=()=>{
+    kOn[r.id]=!kOn[r.id];
+    b.classList.toggle('off',!kOn[r.id]);
+    if(kOn[r.id]) kLayers[r.id].addTo(kmap); else kmap.removeLayer(kLayers[r.id]);
+    const shown = BIKE.filter(x=>kOn[x.id]).reduce((a,x)=>a.concat(x.line),[]);
+    if(shown.length) kmap.fitBounds(shown,{padding:[24,24]});
+  };
+  kchips.appendChild(b);
+});
+
+function kFocus(ri,si){
+  const r=BIKE[ri], s=r.stops[si];
+  if(!kOn[r.id]){ document.querySelector('.kchip[data-id="'+r.id+'"]').click(); }
+  document.getElementById('kmap').scrollIntoView({behavior:'smooth',block:'center'});
+  kmap.flyTo([s.lat,s.lng],15,{duration:.6});
+  setTimeout(()=>r._markers[si].openPopup(),650);
+}
+
+const kgrid=document.getElementById('kgrid');
+BIKE.forEach((r,ri)=>{
+  const d=document.createElement('div');
+  d.className='kcard'; d.style.borderLeftColor=r.color;
+  let html='<h3>'+r.name+'</h3><p class="kmeta">'+r.meta+'</p><p class="kwhy">'+r.why+'</p><ul class="kstops">';
+  r.stops.forEach(s=>{
+    html+='<li data-si="'+(s.n-1)+'"><span class="knum" style="background:'+r.color+'">'+s.n+'</span>'+
+      '<span><b>'+s.name+'</b> · '+s.note+'</span></li>';
+  });
+  html+='</ul><span class="kswim">'+r.swim+'</span>';
+  d.innerHTML=html;
+  d.querySelectorAll('.kstops li').forEach((li,si)=>{ li.onclick=()=>kFocus(ri,si); });
+  kgrid.appendChild(d);
+});
+
 /* ====================== DAY BY DAY (Jul 23 – Aug 9) ====================== */
 // who = travel/arrival chips · fixed = locked plans (🔒) · sugg = strong suggestions still open
 // m/a/e = morning / afternoon / evening · book = booking reminder for that day
@@ -1255,18 +1474,19 @@ const ITIN = [
   m:"Pack, a last Superkilen goodbye, bags out by 10:00. Taxi or metro across town with the luggage.",
   a:"Settle into base 2. If energy allows, Nationalmuseet's children's wing is a five-minute walk.",
   e:"First Vesterbro dinner: Hooked's city-center fish and chips, or Mangia pasta. Kids to bed on time, then Satoko arrives late; leave her a key and a light on."},
- {dow:"Mon", d:"Jul 27", who:["👨‍👩‍👧‍👦 All four together again"],
+ {dow:"Mon", d:"Jul 27", who:["👨‍👩‍👧‍👦 All four together again","🌧️ Wet day · 94% rain, 19°C"],
   fixed:["🔒 Evening: family dinner at the home of Ulrik's friend, a co-founder of the Centre for Digital Habits. Satoko joins, so all four of us. Address still to come."],
-  m:"Birthday-shopping morning with Saya in the center: Panduro and Beadhouse of Copenhagen sit side by side, and she picks her own present. Sticker tattoos go in the basket too. Let Satoko sleep in after the late landing.",
-  a:"Naps and a slow afternoon together, with Satoko already home.",
-  e:"Dinner at their place: lots of nature around the house and kids about the same age as Saya and Enzo, so the children entertain each other while the adults actually talk. Easy first evening back for Satoko."},
- {dow:"Tue", d:"Jul 28", who:["🎂 Saya turns 5!"],
+  m:"Rain all day, so keep it indoors and central. Birthday-shopping morning with Saya: Panduro and Beadhouse of Copenhagen sit side by side, and she picks her own present. Sticker tattoos go in the basket too. Let Satoko sleep in after the late landing.",
+  a:"Designmuseum Danmark, Bredgade 68 — the only museum on our list that opens on a Monday (extra summer opening Jul 6 to Aug 31, daily 10–18). Grandparents take the kids home for naps; Kai and Satoko get two adult hours with the chair gallery, the poster collection and the walled garden. 140 DKK adults, under 18 free, free with the Copenhagen Card. Lunch at Café Format first. Louisiana, Copenhagen Contemporary and every other candidate are shut on Mondays.",
+  e:"Dinner at their place: lots of nature around the house and kids about the same age as Saya and Enzo, so the children entertain each other while the adults actually talk. Easy first evening back for Satoko.",
+  book:"Nothing to book for the Designmuseum, walk-up is fine. Do lock Tivoli wristbands and Absalon seats for tomorrow."},
+ {dow:"Tue", d:"Jul 28", who:["🎂 Saya turns 5!","🚲 The e-cargo bike is ours from today"],
   fixed:["🔒 🎓 Kai: lunch with a colleague at Copenhagen University.",
          "🔒 Evening: Absalon community dinner, a short walk from base 2 · Kai, Ulrik, and the grandparents (buy seats ahead)."],
-  m:"Slow birthday morning at home: presents from Monday's shopping, and Dannebrog flags on the table the Danish way.",
-  a:"Tivoli as the birthday treat, two minutes from base 2: gardens, peacocks, and the Flying Trunk. Kai joins straight from the university.",
+  m:"Slow birthday morning at home: presents from Monday's shopping, and Dannebrog flags on the table the Danish way. Collect the cargo bike and ride one shakedown lap of the neighbourhood before it carries anybody precious.",
+  a:"Tivoli as the birthday treat, two minutes from base 2: gardens, peacocks, and the Flying Trunk. Kai joins straight from the university. This is the Tivoli day, so ride everything.",
   e:"Birthday cake at home, then Kai, Ulrik and the grandparents walk over to Absalon while Satoko takes bedtime.",
-  book:"Tivoli ride wristbands online, and Absalon seats. Gifts sorted Monday at Panduro + Beadhouse (her own pick, plus sticker tattoos from Oma and Opa). Still to grab: the cake and a little Dannebrog flag set, since Danish birthdays mean flags."},
+  book:"⚠️ GoBoat online check-in opens today at 11:30, the 48-hour mark. Follow the link in their email; the boarding pass comes back by email and covers everyone on the booking. Without it nobody boards on Thursday. Also: Tivoli ride wristbands, Absalon seats, the cake, and a little Dannebrog flag set, since Danish birthdays mean flags. Gifts already sorted Monday at Panduro + Beadhouse."},
  {dow:"Wed", d:"Jul 29", who:["🏰 Saya's birthday trip"],
   fixed:["🔒 🏰 Birthday trip: Kronborg Castle in the princess dress · direct train from København H, ~45 min.",
    "🔒 🍽️ Höst, 21:00, table for 2 · booking #14560487 · Nørre Farimagsgade 41. Grandparents on bedtime duty. Cancel by 1PM Tue Jul 28 or it is 250 DKK per guest."],
@@ -1275,34 +1495,36 @@ const ITIN = [
   e:"Early supper with the kids, then Kai and Satoko slip out for the late table at Höst. The 21:00 seating is the reason the afternoon rest matters.",
   book:"Kronborg tickets. And order the GoBoat picnic basket today, 24h before the cruise."},
  {dow:"Thu", d:"Jul 30", who:["🎂 Kai's 40th · GoBoat day"],
-  fixed:["🔒 🎂 The GoBoat birthday cruise, 9:30 slot · three generations, one boat (<a href='#birthday'>the birthday plan</a>).",
+  fixed:["🔒 🎂 The GoBoat birthday cruise, 11:30–14:00 · three generations, one boat (<a href='#birthday'>the birthday plan</a>). Boarding pass on a phone, dock at 11:15.",
    "🔒 🍽️ Silberbauer's Bistro, 20:15, table for 2 · Evening 2.5 hours · booking ID 62359268 · Jægersborggade 40. The birthday dinner, just the two of us."],
-  m:"Harbor loop with picnic aboard and the Broens ice-cream landing.",
-  a:"Heroes' naps all around, which the 20:15 table makes worth protecting.",
+  m:"Slow start at home, then the 15-minute walk to the Islands Brygge dock. Be there at 11:15 with the boarding pass open on a phone; check-in and the safety briefing fill the quarter hour before the 11:30 departure, and arriving late shortens the time on the water rather than pushing the 14:00 return.",
+  a:"Harbour loop with the picnic aboard and the Broens ice-cream landing, back on land by 14:00. Naps straight after, which the 20:15 table makes worth protecting.",
   e:"La Glace birthday layer cake with the kids and grandparents early, then Kai and Satoko out to Silberbauer's."},
- {dow:"Fri", d:"Jul 31",
-  m:"Louisiana day trip: timed morning tickets, the kids' wing, sculpture garden above the sea. Go early, Fridays fill up.",
-  a:"Lunch there with the Øresund view, then the train home for naps. With Geranium passed on, the middle of the day stays ours.",
-  e:"Easy dinner at home after a full day out."},
+ {dow:"Fri", d:"Jul 31", who:["🚲 First big cargo-bike day"],
+  m:"Copenhagen Contemporary by bike: out along Kalvebod Bølge, over Langebro, through Christianshavn and up Refshalevej. About 7 km and 35 minutes each way, all on protected lanes (<a href='#bike'>the harbour circle route</a>). Warehouse-scale installation art in old shipyard halls, big enough that a three-year-old can run. Open Fri 11–18; kids 3–17 are 25 DKK, under 3 free, free with the Copenhagen Card.",
+  a:"Lunch at Reffen next door, sand pit included, then La Banchina's swim ladder if the water tempts. Ride home over the Kissing Bridge and past Nyhavn.",
+  e:"Easy dinner at home, legs up."},
  {dow:"Sat", d:"Aug 1", wknd:true,
-  m:"Frilandsmuseet: costumed role-players and weekend activities, free entry.",
-  a:"Picnic on the museum farm grounds.",
-  e:"Sticks'n'Sushi kids'-bento night."},
- {dow:"Sun", d:"Aug 2", wknd:true,
+  m:"Louisiana: direct Kystbanen train from København H to Humlebæk, about 40 minutes, then a 10-minute walk. No timed tickets and no reservation needed, so go early and beat the weekend crowd. Adults 145 DKK, under 18 free, free with the Copenhagen Card.",
+  a:"The three-storey Children's Wing (open 10–18, workshops close 17:30) and the sculpture park above the Øresund. Lunch in the café with the sea view. Note Saturday closes at 18:00, not the 22:00 you get Tuesday to Friday.",
+  e:"Sticks'n'Sushi kids'-bento night back in town."},
+ {dow:"Sun", d:"Aug 2", wknd:true, who:["🇸🇪 Malmö day trip"],
   sugg:["⏳ 🍽️ Fiskebaren, waitlisted for an outdoor table for 6, 17:30 to 18:00 · the whole family. They contact us if a spot opens; an inside table at 17:30 is the fallback."],
-  m:"Charlottenlund Strand, the hosts' favorite beach: lawns plus gentle sand.",
-  a:"Forest walk back to the S-train; naps.",
-  e:"Fiskebaren in Kødbyen if the waitlist clears, otherwise Familiehave on Pile Allé. Either way an early dinner, since Kai packs for Hanover after."},
+  m:"Øresundståg from København H, 35–40 minutes, leaving every 10 to 20 minutes from the platform under the flat. Passports for everyone, including the kids: Sweden runs ID checks on its side of the bridge. Under-16s ride half price and prices over there are in Swedish kroner. Start at Malmöhus Castle: a moated Renaissance fort holding an aquarium and a natural history museum, free for under-19s.",
+  a:"Folkets Park for the playground and Far i Hatten's terrace, or Ribersborg beach and its long pier if the sun holds. Slottsträdgården's garden café is the calm fallback. Train home mid-afternoon.",
+  e:"Fiskebaren in Kødbyen if the waitlist clears, otherwise Familiehave on Pile Allé. Either way an early dinner, since Kai packs for Hanover after.",
+  book:"Buy the Øresund tickets in the DSB app the night before. No seat reservations on this line."},
  {dow:"Mon", d:"Aug 3", who:["🚂 Kai → Hanover · ECE 397 from København H at 14:04 (via Hamburg, arrives 21:09)"],
   m:"Family morning close to base 2, early lunch together, then Kai walks to the station for the 14:04.",
   a:"Satoko + kids + grandparents: naps, then the Skydebanehaven parrot slide.",
   e:"Home night."},
- {dow:"Tue", d:"Aug 4",
-  m:"Experimentarium: Miniverse is built for exactly ages 1–5. Direct S-train from København H.",
-  a:"Kongens Have dragon playground on the way home, if legs remain.",
-  e:"Mangia pasta night near the station."},
- {dow:"Wed", d:"Aug 5",
-  m:"Den Blå Planet aquarium: the underwater tunnel and the kids'-net Wondrous Pond (metro with one change).",
+ {dow:"Tue", d:"Aug 4", who:["🚂 Kai in Hanover"],
+  m:"Frilandsmuseet with Satoko, the grandparents and the kids: a hundred-plus relocated farmhouses across 86 hectares, animals in the yards and costumed role-players in the houses. Open every day 10–17 through Aug 9, then closed Mondays from Aug 10, so this week is the window. Adults 150 DKK (135 online), under 18 free, free with the Copenhagen Card.",
+  a:"Picnic on the museum grounds, then S-train line E to Sorgenfri and home. Rent a trolley at the gate for 30 DKK; the site is big and the paths are gravel.",
+  e:"Mangia pasta night near the station.",
+  book:"Buy online for the 10% discount and the shorter queue. The whole site runs in English online and the staff switch instantly, though the house labels lean Danish."},
+ {dow:"Wed", d:"Aug 5", who:["🚂 Kai in Hanover"],
+  m:"Optional: Den Blå Planet aquarium, metro to Kastrup with one change. The underwater tunnel and the kids'-net Wondrous Pond. Swap it for a beach morning at Amager Strandpark if the sun holds.",
   a:"Home for naps; the Main Library kids' floor if more indoor time is needed.",
   e:"GRØD porridge dinner, toddler heaven."},
  {dow:"Thu", d:"Aug 6", who:["🚂 Kai back from Hanover · arrives København H 18:02"],
@@ -1317,8 +1539,8 @@ const ITIN = [
  {dow:"Sat", d:"Aug 8", wknd:true, who:["👋 Grandparents fly home in the morning"],
   fixed:["🔒 Likely: second meetup with Barbara, Morten, and Tobias's crew · plan TBD."],
   m:"See the grandparents off, then the group suggestion: Dyrehaven deer and Bakken rides, Tobias's home turf.",
-  a:"Soft ice at Bakken, then the S-train home. Evening packing starts.",
-  e:"Last-night dinner: Cofoco's set menu."},
+  a:"Soft ice at Bakken, then the S-train home while there is still packing daylight.",
+  e:"Home night. With the grandparents gone there is no childcare and the bags are not going to pack themselves, so order in or finish what is in the fridge. Everyone down early for the 6:15 start."},
  {dow:"Sun", d:"Aug 9", wknd:true, who:["✈️ Departure day"],
   fixed:["🔒 Delta 219 to New York-JFK departs 09:00 · connection Delta 365 lands San Francisco 20:03."],
   m:"Up early: out the door by ~6:15, airport train from København H (13 min), at CPH by ~6:45.",
