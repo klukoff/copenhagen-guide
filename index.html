@@ -138,6 +138,22 @@
   /* day-by-day itinerary */
   .day{display:grid;grid-template-columns:118px 1fr;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 10px}
   .day.wknd{background:#fdfaf1}
+  /* past days: hidden by default, collapsed to one line when revealed */
+  .day.past{display:none}
+  #days-list.show-past .day.past{display:grid;opacity:.62;cursor:pointer;padding:8px 16px}
+  #days-list.show-past .day.past .dnum{font-size:15px}
+  .day.past .day-body{display:none}
+  .day.past .past-gist{font-size:13px;color:var(--muted);align-self:center;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .day.past.open{opacity:1}
+  .day.past.open .day-body{display:block}
+  .day.past.open .past-gist{display:none}
+  .day.today{border-color:#c1442e;box-shadow:0 0 0 2px rgba(193,68,46,.14)}
+  .today-chip{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 9px;margin:0 6px 6px 0}
+  .past-toggle{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+    font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin:0 0 12px}
+  .past-toggle:hover{border-color:#cfc7ba;color:var(--ink)}
   .day .dt .dow{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
   .day .dt .dnum{font-size:17px;font-weight:700;letter-spacing:-.01em}
   .who-chip{display:inline-block;background:#eef3fb;color:#2b5797;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;margin:0 6px 6px 0}
@@ -278,7 +294,7 @@
   <h2 class="section-head" id="days" style="margin-top:34px"><span class="swatch" style="background:#2b5797"></span>📅 Day by day · July 23 – August 9</h2>
   <div class="note" style="margin-top:0">
     <p style="margin:0 0 6px"><b>The rhythm:</b> one anchor a day, quiet time roughly 13:00–15:00, evenings local. 🔒 lines are locked plans; everything else is swappable, and rainy-day swaps live in <a href="#" onclick="goSection('museum','museums');return false">Museums &amp; rainy-day</a>.</p>
-    <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Absalon seats for 17:00 on Tue 28 · Kronborg tickets and Saya's cake for the Wed 29 celebration · GoBoat online check-in Tue 28 from 11:30, mandatory 48h boarding pass, then the picnic basket by Wed 29 (cruise is booked, 11:30–14:00 Thu 30) · Øresund tickets in the DSB app for Sun Aug 2 and passports out for the border check · Frilandsmuseet tickets online for Tue Aug 4 · Tivoli wristbands for the whole group for Fri Aug 7. DAC, Copenhagen Contemporary, Louisiana and the Designmuseum are all walk-up.</p>
+    <p style="margin:0;color:#a96a10;font-size:13px"><b>Book this week:</b> Absalon seats for 17:00 on Tue 28 · Kronborg tickets and Saya's cake for the Wed 29 celebration · GoBoat online check-in Tue 28 from 11:30, mandatory 48h boarding pass, then the picnic basket by Wed 29 (cruise is booked, 11:30–14:00 Thu 30) · reschedule the Fiskebaren table off Sun Aug 2 · Frilandsmuseet tickets online for Tue Aug 4 · Tivoli wristbands for the whole group for Fri Aug 7. DAC, Copenhagen Contemporary, Louisiana and the Designmuseum are all walk-up, and Sunday's hot tub is paid.</p>
   </div>
   <p class="wx-note" id="wx-updated"></p>
   <div id="days-list"></div>
@@ -524,7 +540,7 @@
         <li><b>GoBoat:</b> <a href="#birthday">the birthday cruise</a> is booked for 11:30 on Jul 30. Online check-in is mandatory and opens 48h ahead, Tue Jul 28 at 11:30; the picnic-basket add-on needs 24h notice.</li>
         <li><b>Louisiana:</b> no timed tickets and no reservation, but go early on a weekend day. Tue–Fri it stays open to 22:00, Sat–Sun only to 18:00.</li>
         <li><b>Frilandsmuseet:</b> buy online for 135 DKK instead of 150 and skip the queue. Open daily to Aug 9, closed Mondays after.</li>
-        <li><b>Malmö:</b> Øresund tickets in the DSB app, and passports for the ID check on the Swedish side.</li>
+        <li><b>Malmö (parked for another trip):</b> if it ever goes back on, Øresund tickets live in the DSB app and everyone needs a passport for the ID check on the Swedish side.</li>
         <li><b>Canal tour:</b> book about 2 days ahead in July and August (busiest Fri–Sun).</li>
         <li><b>Tivoli:</b> buy ride wristbands online; check the Friday “Fredagsrock” concert if you want one.</li>
         <li><b>CopenHill &amp; Sauna Club Sydhavn:</b> book climbing, skiing, or a sauna session ahead.</li>
@@ -810,7 +826,7 @@ const PLACES = [
    blurb:"A three-storey kids' wing plus a seaside sculpture garden and a real restaurant. Closed Mondays. Tue–Fri it runs to 22:00, Sat–Sun only to 18:00, and the Children's Wing shuts at 18:00 either way. No timed tickets and no reservation, so just turn up early.",
    kid:"<b>Weekend pick:</b> art for you, sculpture park and sea for them.",
    ages:"Art workshops for ages 3+", duration:"Half to full day"},
-  {cat:"trip", pri:"high", onlist:true, name:"Malmö, Sweden", area:"Øresundståg from København H · 35–40 min", lat:55.6090, lng:13.0007,
+  {cat:"trip", pri:"option", name:"Malmö, Sweden (parked for next time)", area:"Øresundståg from København H · 35–40 min", lat:55.6090, lng:13.0007,
    site:"https://malmotown.com/en/", price:"~110 DKK each way · under 16 half price · Swedish kroner over there",
    img:W+"Malm%C3%B6_Central_Station_2015.jpg?width=800",
    blurb:"A second country before lunch, straight from the platform under base 2. Malmöhus Castle holds an aquarium and a natural history museum in one moated fort and is free for under-19s. Folkets Park has the playground and Far i Hatten's terrace; Ribersborg has the beach and the long pier.",
@@ -1503,19 +1519,20 @@ const ITIN = [
   a:"Harbour loop with the picnic aboard and the Broens ice-cream landing, back on land by 14:00. Naps straight after, which the 20:15 table makes worth protecting.",
   e:"La Glace birthday layer cake with the kids and grandparents early, then Kai and Satoko out to Silberbauer's."},
  {dow:"Fri", d:"Jul 31", who:["🚲 First big cargo-bike day"],
-  m:"Copenhagen Contemporary by bike: out along Kalvebod Bølge, over Langebro, through Christianshavn and up Refshalevej. About 7 km and 35 minutes each way, all on protected lanes (<a href='#bike'>the harbour circle route</a>). Warehouse-scale installation art in old shipyard halls, big enough that a three-year-old can run. Open Fri 11–18; kids 3–17 are 25 DKK, under 3 free, free with the Copenhagen Card.",
-  a:"Lunch at Reffen next door, sand pit included, then La Banchina's swim ladder if the water tempts. Ride home over the Kissing Bridge and past Nyhavn.",
-  e:"Easy dinner at home, legs up."},
+  sugg:["⏳ 🍽️ Fiskebaren, Kødbyen · table for 6, the whole family · moved here from Sunday, booking still to confirm."],
+  m:"The whole family out to Refshaleøen by bike: along Kalvebod Bølge, over Langebro, through Christianshavn and up Refshalevej. About 7 km and 35 minutes each way, all on protected lanes (<a href='#bike'>the harbour circle route</a>). The ride is the point, so stop for everything the kids want to look at.",
+  a:"Lunch at Reffen, sand pit included, then La Banchina's swim ladder if the water tempts. Ride home over the Kissing Bridge and past Nyhavn. Copenhagen Contemporary sits right there if the kids have the appetite for it (25 DKK ages 3–17), though Kai and Satoko now have it on Sunday's date day, so no pressure either way.",
+  e:"Fiskebaren in Kødbyen, five minutes from base 2, if the table comes through: oysters and fried fish in a former butcher's hall, and they are used to kids. Otherwise an easy dinner at home with legs up, which after 14 km of cargo bike is no hardship."},
  {dow:"Sat", d:"Aug 1", wknd:true,
   m:"Louisiana: direct Kystbanen train from København H to Humlebæk, about 40 minutes, then a 10-minute walk. No timed tickets and no reservation needed, so go early and beat the weekend crowd. Adults 145 DKK, under 18 free, free with the Copenhagen Card.",
   a:"The three-storey Children's Wing (open 10–18, workshops close 17:30) and the sculpture park above the Øresund. Lunch in the café with the sea view. Note Saturday closes at 18:00, not the 22:00 you get Tuesday to Friday.",
   e:"Sticks'n'Sushi kids'-bento night back in town."},
- {dow:"Sun", d:"Aug 2", wknd:true, who:["🇸🇪 Malmö day trip"],
-  sugg:["⏳ 🍽️ Fiskebaren, waitlisted for an outdoor table for 6, 17:30 to 18:00 · the whole family. They contact us if a spot opens; an inside table at 17:30 is the fallback."],
-  m:"Øresundståg from København H, 35–40 minutes, leaving every 10 to 20 minutes from the platform under the flat. Passports for everyone, including the kids: Sweden runs ID checks on its side of the bridge. Under-16s ride half price and prices over there are in Swedish kroner. Start at Malmöhus Castle: a moated Renaissance fort holding an aquarium and a natural history museum, free for under-19s.",
-  a:"Folkets Park for the playground and Far i Hatten's terrace, or Ribersborg beach and its long pier if the sun holds. Slottsträdgården's garden café is the calm fallback. Train home mid-afternoon.",
-  e:"Fiskebaren in Kødbyen if the waitlist clears, otherwise Familiehave on Pile Allé. Either way an early dinner, since Kai packs for Hanover after.",
-  book:"Buy the Øresund tickets in the DSB app the night before. No seat reservations on this line."},
+ {dow:"Sun", d:"Aug 2", wknd:true, who:["💑 Date day · grandparents have the kids"],
+  fixed:["🔒 ♨️ 20:00–21:00 · Hottub Copenhagen, Refshaleøen · Hottub Sauna Kombi plus 2× sauna · order 466003, paid."],
+  m:"A whole day off, and the best weather of the trip: 22°C and clear. Start at DAC in BLOX, Bryghuspladsen 10, ten minutes from the door. This time the exhibitions rather than the slide, which takes most people 90 minutes to two hours, then coffee on the rooftop terrace over the harbour. Open Sunday 10–18, 135 DKK adults, 10% off online.",
+  a:"Onto the bikes and out along the harbour circle: Langebro, the Christianshavn canals, up Prinsessegade and along Refshalevej (<a href='#bike'>the route is mapped here</a>). Copenhagen Contemporary is open every day in August, 11–18, and this is the unhurried adult version of it. Afterwards La Banchina for a swim off the ladder and a drink, or Reffen if you want dinner handled.",
+  e:"Hottub Copenhagen at 20:00: an hour in the 40°C saltwater tub looking back at the skyline, then the sauna. Sunset is 21:16 and civil twilight runs to 22:01, so the cold plunge between sauna rounds is the sunset moment. Bring towels, swimwear and a bike light, then roll home along the water in the dark.",
+  book:"Nothing left to book. Bring the order confirmation and arrive a few minutes early to change."},
  {dow:"Mon", d:"Aug 3", who:["🚂 Kai → Hanover · ECE 397 from København H at 14:04 (via Hamburg, arrives 21:09)"],
   m:"Family morning close to base 2, early lunch together, then Kai walks to the station for the 14:04.",
   a:"Satoko + kids + grandparents: naps, then the Skydebanehaven parrot slide.",
@@ -1552,11 +1569,23 @@ const ITIN = [
   e:"Home to San Jose. Farvel, København 🇩🇰"}
 ];
 
+/* Past days collapse to a single line. "Today" is the real date, clamped to the trip. */
+const TRIP_YEAR = 2026;
+const MON = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+function dayDate(s){ const [m,d]=s.split(' '); return new Date(TRIP_YEAR, MON[m], +d); }
+const TODAY = (()=>{ const n=new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); })();
+
 const daysList=document.getElementById('days-list');
+let pastCount=0;
 ITIN.forEach(day=>{
   const c=document.createElement('div');
-  c.className='day'+(day.wknd?' wknd':'');
+  const dd = dayDate(day.d);
+  const isPast = dd < TODAY;
+  const isToday = dd.getTime() === TODAY.getTime();
+  if(isPast) pastCount++;
+  c.className='day'+(day.wknd?' wknd':'')+(isPast?' past':'')+(isToday?' today':'');
   let right='';
+  if(isToday) right+='<span class="today-chip">Today</span>';
   right+='<div class="wx wx-empty" data-wxkey="'+day.d+'"></div>';
   (day.who||[]).forEach(w=>{ right+='<span class="who-chip">'+w+'</span>'; });
   if(day.who) right+='<div></div>';
@@ -1566,9 +1595,29 @@ ITIN.forEach(day=>{
     if(day[k]) right+='<div class="slot"><span class="lbl">'+lbl+'</span><span>'+day[k]+'</span></div>';
   });
   if(day.book) right+='<p class="book-line">⚠️ '+day.book+'</p>';
-  c.innerHTML='<div class="dt"><div class="dow">'+day.dow+'</div><div class="dnum">'+day.d+'</div></div><div>'+right+'</div>';
+  c.innerHTML='<div class="dt"><div class="dow">'+day.dow+'</div><div class="dnum">'+day.d+'</div></div>'+
+    '<div class="day-body">'+right+'</div>';
+  if(isPast){
+    const gist = (day.m||day.a||day.e||'').replace(/<[^>]*>/g,'').split(/[.:·]/)[0].trim();
+    c.insertAdjacentHTML('beforeend','<div class="past-gist">'+gist+'</div>');
+    c.onclick=()=>c.classList.toggle('open');
+  }
   daysList.appendChild(c);
 });
+
+/* Toggle for the collapsed past days */
+if(pastCount){
+  const bar=document.createElement('button');
+  bar.className='past-toggle';
+  bar.textContent='Show '+pastCount+' past day'+(pastCount>1?'s':'');
+  let shown=false;
+  bar.onclick=()=>{
+    shown=!shown;
+    daysList.classList.toggle('show-past',shown);
+    bar.textContent=(shown?'Hide ':'Show ')+pastCount+' past day'+(pastCount>1?'s':'');
+  };
+  daysList.parentNode.insertBefore(bar,daysList);
+}
 
 /* ====================== WEATHER (live + offline snapshot) ====================== */
 /* Live forecast from Open-Meteo (free, no API key), fetched in the browser on each open
